@@ -1,6 +1,8 @@
+import { draw } from "./canvas.js"
+
 const form = document.getElementById('form-mensaje')
 
-const socket = new WebSocket('ws://localhost:8080')
+export const socket = new WebSocket('ws://localhost:8080')
 
 form.addEventListener('submit', event => {
   event.preventDefault()
@@ -10,4 +12,7 @@ form.addEventListener('submit', event => {
 
 socket.addEventListener('message', (event) => {
   console.log('Message from server ', event.data)
+  draw(JSON.parse(event.data))
 })
+
+
