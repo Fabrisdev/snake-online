@@ -1,4 +1,4 @@
-import { socket, clientId } from './ws.js'
+import { socket } from './ws.js'
 
 const name = prompt('dame tu nombre gil')
 
@@ -50,18 +50,22 @@ const direction = {
 export function draw(gameInfo) {
   drawBackground()
   drawApple(gameInfo.apple)
-  gameInfo.players.forEach(player => {
+  drawPlayers(gameInfo.players)
+}
+
+function drawApple(applePosition){
+  ctx.fillStyle = "#f00"
+  ctx.drawSquare(applePosition.x, applePosition.y)
+}
+
+function drawPlayers(players){
+  players.forEach(player => {
     ctx.fillStyle = player.color
     ctx.drawSquare(player.position.x, player.position.y)
     ctx.font = "20px sans-serif";
     ctx.textAlign = "center"
     ctx.fillText(player.name, player.position.x * options.playerSize + options.playerSize / 2, player.position.y * options.playerSize - 5);
   })
-}
-
-function drawApple(applePosition){
-  ctx.fillStyle = "#f00"
-  ctx.drawSquare(applePosition.x, applePosition.y)
 }
 
 document.addEventListener('keyup', event => {
@@ -74,7 +78,6 @@ document.addEventListener('keyup', event => {
 
 function sendDirection(direction){
   socket.send(JSON.stringify({
-    id: clientId,
     name,
     direction
   }))

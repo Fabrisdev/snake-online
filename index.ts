@@ -6,7 +6,6 @@ type Direction = 'up' | 'down' | 'left' | 'right' | 'stopped'
 type RGB = `rgb(${number}, ${number}, ${number})`
 
 interface PlayerData {
-  id: string | null
   name: string
   direction: Direction
 }
@@ -48,16 +47,14 @@ wss.on('connection', ws => {
       direction,
       color: `rgb(${red}, ${green}, ${blue})`
     })
-    ws.send(JSON.stringify({ clientId }))
+  }
+
+  function updatePlayerDirection ({ direction }: PlayerData): void {
+    const player = players.get(clientId)
+    if (player === undefined) return
+    player.direction = direction
   }
 })
-
-function updatePlayerDirection ({ id, direction }: PlayerData): void {
-  if (id === null) return
-  const player = players.get(id)
-  if (player === undefined) return
-  player.direction = direction
-}
 
 function getRandomInteger (min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min)
