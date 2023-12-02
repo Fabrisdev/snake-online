@@ -17,40 +17,53 @@ interface Player {
   }
   direction: Direction
   color: RGB
+  id: number
 }
 const players = new Map<string, Player>()
 
 wss.on('connection', ws => {
+  (ws as any).clientId = uniqueId()
   ws.on('message', data => {
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const playerData = JSON.parse(data.toString()) as PlayerData
-    if (!players.has(playerData.name)) registerPlayer(playerData.name, playerData.direction)
-    updatePlayerDirection(playerData.name, playerData.direction)
+    if (!players.has(playerData.name)) registerPlayer(playerData)
+    updatePlayerDirection(playerData)
   })
+
+  ws.on('close', () => {
+    players.forEach((player, name) => {
+      if (player.id === (ws as any).clientId) players.delete(name)
+    })
+  })
+
+  function registerPlayer ({ name, direction }: PlayerData): void {
+    const red = getRandomArbitrary(0, 255)
+    const green = getRandomArbitrary(0, 255)
+    const blue = getRandomArbitrary(0, 255)
+    players.set(name, {
+      position: {
+        x: 0,
+        y: 0
+      },
+      direction,
+      color: `rgb(${red}, ${green}, ${blue})`,
+      id: (ws as any).clientId
+    })
+  }
 })
 
-function updatePlayerDirection (name: string, direction: Direction): void {
+function updatePlayerDirection ({ name, direction }: PlayerData): void {
   const player = players.get(name)
   if (player === undefined) return
   player.direction = direction
 }
 
-function registerPlayer (name: string, direction: Direction): void {
-  const red = getRandomArbitrary(0, 255)
-  const green = getRandomArbitrary(0, 255)
-  const blue = getRandomArbitrary(0, 255)
-  players.set(name, {
-    position: {
-      x: 0,
-      y: 0
-    },
-    direction,
-    color: `rgb(${red}, ${green}, ${blue})`
-  })
-}
-
 function getRandomArbitrary (min: number, max: number): number {
   return Math.random() * (max - min) + min
+}
+
+function uniqueId (): string {
+  return Math.random().toString(36).substring(2, 15)
 }
 
 const CYCLE_SPEED = 200
