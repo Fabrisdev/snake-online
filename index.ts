@@ -36,9 +36,9 @@ wss.on('connection', ws => {
   })
 
   function registerPlayer ({ name, direction }: PlayerData): void {
-    const red = getRandomArbitrary(0, 255)
-    const green = getRandomArbitrary(0, 255)
-    const blue = getRandomArbitrary(0, 255)
+    const red = getRandomInteger(0, 255)
+    const green = getRandomInteger(0, 255)
+    const blue = getRandomInteger(0, 255)
     players.set(clientId, {
       name,
       position: {
@@ -59,8 +59,8 @@ function updatePlayerDirection ({ id, direction }: PlayerData): void {
   player.direction = direction
 }
 
-function getRandomArbitrary (min: number, max: number): number {
-  return Math.random() * (max - min) + min
+function getRandomInteger (min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min) + min)
 }
 
 function uniqueId (): string {
@@ -69,6 +69,12 @@ function uniqueId (): string {
 
 const CYCLE_SPEED = 200
 setInterval(gameCycle, CYCLE_SPEED)
+const SIZE = 500
+const PLAYER_SIZE = 25
+const applePosition = {
+  x: getRandomInteger(0, SIZE / PLAYER_SIZE),
+  y: getRandomInteger(0, SIZE / PLAYER_SIZE)
+}
 
 function gameCycle (): void {
   players.forEach(player => {
@@ -76,11 +82,18 @@ function gameCycle (): void {
     if (player.direction === 'down') player.position.y += 1
     if (player.direction === 'left') player.position.x -= 1
     if (player.direction === 'right') player.position.x += 1
+    if (player.position.x === applePosition.x && player.position.y === applePosition.y) {
+      applePosition.x = getRandomInteger(0, SIZE / PLAYER_SIZE)
+      applePosition.y = getRandomInteger(0, SIZE / PLAYER_SIZE)
+    }
   })
   const playersAsArray = Array.from(players.values())
 
   wss.clients.forEach(client => {
-    client.send(JSON.stringify(playersAsArray))
+    client.send(JSON.stringify({
+      apple: applePosition,
+      players: playersAsArray
+    }))
   })
 }
 

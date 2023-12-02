@@ -47,16 +47,21 @@ const direction = {
   STOPPED: "stopped"
 }
 
-export function draw(playersInfo) {
-  drawBackground(ctx)
-  if(playersInfo.length === 0) return
-  playersInfo.forEach(player => {
+export function draw(gameInfo) {
+  drawBackground()
+  drawApple(gameInfo.apple)
+  gameInfo.players.forEach(player => {
     ctx.fillStyle = player.color
     ctx.drawSquare(player.position.x, player.position.y)
     ctx.font = "20px sans-serif";
     ctx.textAlign = "center"
     ctx.fillText(player.name, player.position.x * options.playerSize + options.playerSize / 2, player.position.y * options.playerSize - 5);
   })
+}
+
+function drawApple(applePosition){
+  ctx.fillStyle = "#f00"
+  ctx.drawSquare(applePosition.x, applePosition.y)
 }
 
 document.addEventListener('keyup', event => {
