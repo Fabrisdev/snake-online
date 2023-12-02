@@ -26,15 +26,12 @@ interface RegisterPlayer {
 }
 
 export function registerPlayer ({ clientId, players, playerData }: RegisterPlayer): void {
-  const red = getRandomInteger(0, 255)
-  const green = getRandomInteger(0, 255)
-  const blue = getRandomInteger(0, 255)
   players.set(clientId, {
     position: {
       x: 0,
       y: 0
     },
-    color: `rgb(${red}, ${green}, ${blue})`,
+    color: getRandomRGB(),
     ...playerData
   })
 }
@@ -43,4 +40,11 @@ export function updatePlayerDirection (clientId: string, direction: Direction): 
   const player = players.get(clientId)
   if (player === undefined) return
   player.direction = direction
+}
+
+function getRandomRGB (): `rgb(${number}, ${number}, ${number})` {
+  const red = getRandomInteger(0, 255)
+  const green = getRandomInteger(0, 255)
+  const blue = getRandomInteger(0, 255)
+  return `rgb(${red}, ${green}, ${blue})`
 }
