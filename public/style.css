@@ -10,8 +10,29 @@ body{
   justify-content: center;
   align-items: center;
   background-color: #333;
+  position: relative;
 }
 
 #game{
+  border: 5px solid #fff;
+}
+
+dialog{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: #000;
+  color: #fff;
   border: 1px solid #000;
+  border-radius: 10px;
+  width: 400px;
+  height: 200px;
+  font-family: Arial;
+}
+
+dialog::backdrop {
+  background-color: rgba(255, 255, 255, 0.493);
 }
