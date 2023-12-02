@@ -1,6 +1,6 @@
 import { type RGB } from './utils'
 import { getRandomInteger } from './utils'
-import { players } from './index'
+import { players } from './game'
 
 export type Direction = 'up' | 'down' | 'left' | 'right' | 'stopped'
 
