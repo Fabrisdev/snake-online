@@ -53,6 +53,9 @@ export function draw(playersInfo) {
   playersInfo.forEach(player => {
     ctx.fillStyle = player.color
     ctx.drawSquare(player.position.x, player.position.y)
+    ctx.font = "20px sans-serif";
+    ctx.textAlign = "center"
+    ctx.fillText(player.name, player.position.x * options.playerSize + options.playerSize / 2, player.position.y * options.playerSize - 5);
   })
 }
 
