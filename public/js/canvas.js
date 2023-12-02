@@ -1,9 +1,7 @@
 import { socket } from './ws.js'
 
-let name = null
-while(name === null){
-  name = prompt('dame tu nombre gil')
-}
+const dialog = document.querySelector('dialog')
+dialog.showModal()
 
 const options = {
   size: 500,
