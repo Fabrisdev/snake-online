@@ -1,4 +1,4 @@
-import { socket } from './ws.js'
+import { socket, clientId } from './ws.js'
 
 const name = prompt('dame tu nombre gil')
 
@@ -66,6 +66,7 @@ document.addEventListener('keyup', event => {
 
 function sendDirection(direction){
   socket.send(JSON.stringify({
+    id: clientId,
     name,
     direction
   }))
