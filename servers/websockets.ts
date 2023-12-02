@@ -1,23 +1,24 @@
 import { getUniqueId } from '../utils'
-import { registerPlayer, type PlayerData, updatePlayerDirection } from '../player'
+import { registerPlayer, updatePlayerDirection } from '../player'
 import { players } from '../game'
-import { WebSocketServer } from 'ws'
+import { type RawData, WebSocketServer } from 'ws'
+import { z } from 'zod'
+import { type PlayerData } from '../player'
 
-export function startWebSocketsServer (): WebSocketServer {
+const ClientData = z.object({
+  name: z.string().min(1).max(12),
+  direction: z.enum(['up', 'down', 'left', 'right', 'stopped'])
+})
+
+export function startWebSocketsServer () {
   const wss = new WebSocketServer({ port: 8080 })
   wss.on('connection', ws => {
     const clientId = getUniqueId()
+
     ws.on('message', data => {
-      // eslint-disable-next-line @typescript-eslint/no-base-to-string
-      const playerData = JSON.parse(data.toString()) as PlayerData
-      if (!players.has(clientId)) {
-        registerPlayer({
-          clientId,
-          players,
-          playerData
-        })
-      }
-      updatePlayerDirection(clientId, playerData.direction)
+      const clientData = validateClientData(data)
+      if (!clientData.success) return
+      handleMessage(clientId, clientData.data)
     })
 
     ws.on('close', () => {
@@ -25,4 +26,22 @@ export function startWebSocketsServer (): WebSocketServer {
     })
   })
   return wss
+}
+
+function validateClientData (clientData: RawData) {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
+  const dataAsJson = JSON.parse(clientData.toString())
+  return ClientData.safeParse(dataAsJson)
+}
+
+function handleMessage (clientId: string, data: PlayerData) {
+  if (!players.has(clientId)) {
+    registerPlayer({
+      clientId,
+      players,
+      playerData: data
+    })
+    return
+  }
+  updatePlayerDirection(clientId, data.direction)
 }
