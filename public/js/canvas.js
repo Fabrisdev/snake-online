@@ -1,6 +1,9 @@
 import { socket } from './ws.js'
 
-const name = prompt('dame tu nombre gil')
+let name = null
+while(name === null){
+  name = prompt('dame tu nombre gil')
+}
 
 const options = {
   size: 500,
