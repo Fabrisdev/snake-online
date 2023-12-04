@@ -90,6 +90,10 @@ dialog div img {
   position: relative;
 }
 
+#input-container p{
+  width: 15px;
+}
+
 @keyframes error {
   0% {
     left: 0;
