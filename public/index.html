@@ -8,12 +8,19 @@
   <script src="js/canvas.js" type="module" defer></script>
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="img/serpiente.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
   <dialog>
-    <p>Welcome! To play first insert your username</p>
-    <label for="username">Username:</label>
-    <input type="text" name="username" minlength="1" maxlength="12">
+    <div>
+      <label for="username">Username:</label>
+      <div id="input-container">
+        <img src="img/user.png" alt="">
+        <input type="text" name="username" minlength="1" maxlength="12" placeholder="My username">
+      </div>
+    </div>
     <input type="submit" value="Play">
   </dialog>
   <canvas id="game"></canvas>
