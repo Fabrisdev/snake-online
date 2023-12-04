@@ -16,15 +16,15 @@ class SnakeCanvas{
     this.#size = size
   }
 
-  drawPlayer = function(x, y, color) {
+  drawPlayer(x, y, color) {
     this.#drawSquare(x, y, color)
   }
 
-  drawApple = function(x, y) {
+  drawApple(x, y) {
     this.#drawSquare(x, y, "#f00")
   }
 
-  #drawSquare = function(x, y, color) {
+  #drawSquare(x, y, color) {
     this.#ctx.fillStyle = color
     this.#ctx.fillRect(x * playerSize, y * playerSize, playerSize, playerSize)
   }
@@ -42,9 +42,6 @@ class SnakeCanvas{
 }
 
 class GameManager{
-  #size = 500
-  #playerSize = 25
-  
 
 }
 
