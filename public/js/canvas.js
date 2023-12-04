@@ -5,18 +5,21 @@ dialog.showModal()
 
 const usernameSubmit = document.getElementById('username-submit')
 
-class CustomCanvas{
+class SnakeCanvas{
   #ctx
+  #playerSize
 
-  constructor(canvas){
-    this.#ctx = canvas.getContext('2d')
-    mutateContext()
+  constructor(ctx, playerSize) {
+    this.#ctx = ctx
+    this.#playerSize = playerSize
   }
 
-  mutateContext(){
-    this.#ctx.drawSquare = (x, y) => {
-      this.#ctx.fillRect(x * playerSize, y * playerSize, playerSize, playerSize)
-    }
+  drawPlayer = function(x, y) {
+    this.#ctx.fillRect(x * playerSize, y * playerSize, playerSize, playerSize)
+  }
+
+  drawApple = function(x, y) {
+    this.#ctx.fillRect(x * playerSize, y * playerSize, playerSize, playerSize)
   }
 }
 
