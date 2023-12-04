@@ -13,15 +13,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <dialog>
-    <div>
-      <label for="username">Username:</label>
-      <div id="input-container">
-        <img src="img/user.png" alt="">
-        <input type="text" name="username" minlength="1" maxlength="12" placeholder="My username">
+  <dialog id="username-dialog">
+    <div id="wrapper">
+      <div>
+        <label for="username">Username:</label>
+        <div id="input-container">
+          <img src="img/user.png" alt="">
+          <input type="text" id="username-input" minlength="1" maxlength="12" placeholder="My username">
+        </div>
       </div>
+      <input type="submit" id="username-submit" value="Play">
     </div>
-    <input type="submit" value="Play">
   </dialog>
   <canvas id="game"></canvas>
 </body>

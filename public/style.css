@@ -29,6 +29,9 @@ dialog{
   border: 5px solid #fff;
   width: 400px;
   font-family: Arial;
+}
+
+dialog #wrapper{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,28 +44,28 @@ dialog::backdrop {
   background-color: rgba(255, 255, 255, 0.493);
 }
 
-dialog *{
+dialog div *{
   width: 100%;
   font-family: 'Roboto';
   font-weight: 500;
   font-size: 20px;
 }
 
-dialog input[type=text]{
+dialog div input[type=text]{
   background-color: #A40E4C;
   color: #fff;
   border: none;
 }
 
-dialog input[type=text]:focus{
+dialog div input[type=text]:focus{
   outline: none;
 }
 
-dialog input[type=text]::placeholder{
+dialog div input[type=text]::placeholder{
   color: #eee;
 }
 
-dialog input[type=submit]{
+dialog div input[type=submit]{
   background-color: #fff;
   color: #000;
   cursor: pointer;
@@ -71,7 +74,7 @@ dialog input[type=submit]{
   padding: 10px;
 }
 
-dialog img{
+dialog div img{
   width: 20px;
   aspect-ratio: 1/1;
 }
