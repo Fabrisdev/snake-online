@@ -5,6 +5,28 @@ dialog.showModal()
 
 const usernameSubmit = document.getElementById('username-submit')
 
+class CustomCanvas{
+  #ctx
+
+  constructor(canvas){
+    this.#ctx = canvas.getContext('2d')
+    mutateContext()
+  }
+
+  mutateContext(){
+    this.#ctx.drawSquare = (x, y) => {
+      this.#ctx.fillRect(x * playerSize, y * playerSize, playerSize, playerSize)
+    }
+  }
+}
+
+class GameBoard{
+  #size = 500
+  #playerSize = 25
+  
+
+}
+
 function registerToPlay(){
   const usernameDialog = document.getElementById('username-dialog')
   const usernameInput = document.getElementById('username-input')
@@ -37,14 +59,9 @@ document.getElementById('username-dialog').addEventListener('keyup', event => {
   registerToPlay()
 })
 
-const options = {
-  size: 500,
-  playerSize: 25,
-  deltatime: 200
-}
 
-const canvas = prepare(options.size)
-const ctx = mutateContext(options.playerSize)
+
+
 
 function prepare(size) {
   const canvas = document.getElementById('game')
@@ -74,7 +91,7 @@ function drawBackground(){
   }
 }
 
-const direction = {
+const Direction = {
   RIGHT: "right",
   LEFT: "left",
   UP: "up",
