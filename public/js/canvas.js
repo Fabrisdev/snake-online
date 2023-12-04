@@ -7,19 +7,37 @@ const usernameSubmit = document.getElementById('username-submit')
 
 class SnakeCanvas{
   #ctx
+  #size
   #playerSize
 
-  constructor(ctx, playerSize) {
+  constructor(ctx, { size, playerSize }) {
     this.#ctx = ctx
     this.#playerSize = playerSize
+    this.#size = size
   }
 
-  drawPlayer = function(x, y) {
-    this.#ctx.fillRect(x * playerSize, y * playerSize, playerSize, playerSize)
+  drawPlayer = function(x, y, color) {
+    this.#drawSquare(x, y, color)
   }
 
   drawApple = function(x, y) {
+    this.#drawSquare(x, y, "#f00")
+  }
+
+  #drawSquare = function(x, y, color) {
+    this.#ctx.fillStyle = color
     this.#ctx.fillRect(x * playerSize, y * playerSize, playerSize, playerSize)
+  }
+
+  drawBackground() {
+    for(let x = 0; x < this.#size / this.#playerSize; x++){
+      let currentColor = "#aada54"
+      for(let y = 0; y < this.#size / this.#playerSize; y++){
+        if(x !== 0 && y === 0) currentColor = x % 2 !== 0 ? "#a2d34c" : "#aada54"
+        currentColor = currentColor === "#aada54" ? "#a2d34c" : "#aada54"
+        this.#drawSquare(x, y, currentColor)
+      }
+    }
   }
 }
 
