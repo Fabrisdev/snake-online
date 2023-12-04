@@ -49,10 +49,8 @@ dialog *{
 }
 
 dialog input[type=text]{
-  border: 1px solid #fff;
   background-color: #A40E4C;
   color: #fff;
-  border-radius: 5px;
   border: none;
 }
 
