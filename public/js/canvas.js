@@ -9,7 +9,16 @@ const usernameSubmit = document.getElementById('username-submit')
 usernameSubmit.addEventListener('click', () => {
   const usernameDialog = document.getElementById('username-dialog')
   const usernameInput = document.getElementById('username-input')
-  if(usernameInput.value.length === 0 || usernameInput.value.length > 12) return
+  if(usernameInput.value.length === 0 || usernameInput.value.length > 12) {
+    const inputContainer = document.getElementById('input-container')
+    inputContainer.style.backgroundColor = "#f00"
+    inputContainer.style.animation = "error 500ms"
+    setTimeout(() => {
+      inputContainer.style.backgroundColor = "transparent"
+      inputContainer.style.animation = ""
+    }, 500)
+    return
+  }
   name = usernameInput.value
   usernameDialog.close()
   document.addEventListener('keyup', event => {

@@ -1,10 +1,10 @@
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body{
+body {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -13,11 +13,11 @@ body{
   position: relative;
 }
 
-#game{
+#game {
   border: 5px solid #fff;
 }
 
-dialog{
+dialog {
   position: absolute;
   top: 0;
   left: 0;
@@ -31,7 +31,7 @@ dialog{
   font-family: Arial;
 }
 
-dialog #wrapper{
+dialog #wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,28 +44,28 @@ dialog::backdrop {
   background-color: rgba(255, 255, 255, 0.493);
 }
 
-dialog div *{
+dialog div * {
   width: 100%;
   font-family: 'Roboto';
   font-weight: 500;
   font-size: 20px;
 }
 
-dialog div input[type=text]{
-  background-color: #A40E4C;
+dialog div input[type=text] {
+  background-color: transparent;
   color: #fff;
   border: none;
 }
 
-dialog div input[type=text]:focus{
+dialog div input[type=text]:focus {
   outline: none;
 }
 
-dialog div input[type=text]::placeholder{
+dialog div input[type=text]::placeholder {
   color: #eee;
 }
 
-dialog div input[type=submit]{
+dialog div input[type=submit] {
   background-color: #fff;
   color: #000;
   cursor: pointer;
@@ -74,12 +74,12 @@ dialog div input[type=submit]{
   padding: 10px;
 }
 
-dialog div img{
+dialog div img {
   width: 20px;
   aspect-ratio: 1/1;
 }
 
-#input-container{
+#input-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,4 +87,20 @@ dialog div img{
   border-radius: 5px;
   padding: 10px;
   gap: 10px;
+  position: relative;
+}
+
+@keyframes error {
+  0% {
+    left: 0;
+  }
+  33% {
+    left: -10px;
+  }
+  66% {
+    left: 10px;
+  }
+  100% {
+    left: 0;
+  }
 }
