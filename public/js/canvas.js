@@ -3,7 +3,6 @@ import { socket } from './ws.js'
 const dialog = document.querySelector('dialog')
 dialog.showModal()
 
-let name = null
 const usernameSubmit = document.getElementById('username-submit')
 
 function registerToPlay(){
@@ -19,14 +18,13 @@ function registerToPlay(){
     }, 500)
     return
   }
-  name = usernameInput.value
   usernameDialog.close()
   document.addEventListener('keyup', event => {
-    if(event.key === "w") sendDirection(direction.UP)
-    if(event.key === "d") sendDirection(direction.RIGHT)
-    if(event.key === "a") sendDirection(direction.LEFT)
-    if(event.key === "s") sendDirection(direction.DOWN)
-    if(event.key === "f") sendDirection(direction.STOPPED)
+    if(event.key === "w") sendDirection(usernameInput.value, direction.UP)
+    if(event.key === "d") sendDirection(usernameInput.value, direction.RIGHT)
+    if(event.key === "a") sendDirection(usernameInput.value, direction.LEFT)
+    if(event.key === "s") sendDirection(usernameInput.value, direction.DOWN)
+    if(event.key === "f") sendDirection(usernameInput.value, direction.STOPPED)
   })
 }
 
@@ -105,7 +103,7 @@ function drawPlayers(players){
   })
 }
 
-function sendDirection(direction){
+function sendDirection(name, direction){
   socket.send(JSON.stringify({
     name,
     direction
