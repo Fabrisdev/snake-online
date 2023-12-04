@@ -41,7 +41,7 @@ class SnakeCanvas{
   }
 }
 
-class GameBoard{
+class GameManager{
   #size = 500
   #playerSize = 25
   
