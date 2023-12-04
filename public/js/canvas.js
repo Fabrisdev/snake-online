@@ -6,7 +6,7 @@ dialog.showModal()
 let name = null
 const usernameSubmit = document.getElementById('username-submit')
 
-usernameSubmit.addEventListener('click', () => {
+function registerToPlay(){
   const usernameDialog = document.getElementById('username-dialog')
   const usernameInput = document.getElementById('username-input')
   if(usernameInput.value.length === 0 || usernameInput.value.length > 12) {
@@ -28,6 +28,15 @@ usernameSubmit.addEventListener('click', () => {
     if(event.key === "s") sendDirection(direction.DOWN)
     if(event.key === "f") sendDirection(direction.STOPPED)
   })
+}
+
+usernameSubmit.addEventListener('click', () => {
+  registerToPlay()
+})
+
+document.getElementById('username-dialog').addEventListener('keyup', event => {
+  if(event.key !== "Enter") return
+  registerToPlay()
 })
 
 const options = {
