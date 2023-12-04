@@ -3,6 +3,23 @@ import { socket } from './ws.js'
 const dialog = document.querySelector('dialog')
 dialog.showModal()
 
+let name = null
+const usernameSubmit = document.getElementById('username-submit')
+
+usernameSubmit.addEventListener('click', () => {
+  const usernameDialog = document.getElementById('username-dialog')
+  const usernameInput = document.getElementById('username-input')
+  name = usernameInput.value
+  usernameDialog.close()
+  document.addEventListener('keyup', event => {
+    if(event.key === "w") sendDirection(direction.UP)
+    if(event.key === "d") sendDirection(direction.RIGHT)
+    if(event.key === "a") sendDirection(direction.LEFT)
+    if(event.key === "s") sendDirection(direction.DOWN)
+    if(event.key === "f") sendDirection(direction.STOPPED)
+  })
+})
+
 const options = {
   size: 500,
   playerSize: 25,
@@ -68,14 +85,6 @@ function drawPlayers(players){
     ctx.fillText(player.name, player.position.x * options.playerSize + options.playerSize / 2, player.position.y * options.playerSize - 5);
   })
 }
-
-document.addEventListener('keyup', event => {
-  if(event.key === "w") sendDirection(direction.UP)
-  if(event.key === "d") sendDirection(direction.RIGHT)
-  if(event.key === "a") sendDirection(direction.LEFT)
-  if(event.key === "s") sendDirection(direction.DOWN)
-  if(event.key === "f") sendDirection(direction.STOPPED)
-})
 
 function sendDirection(direction){
   socket.send(JSON.stringify({
