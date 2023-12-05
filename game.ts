@@ -21,8 +21,7 @@ function gameCycle (): void {
     if (player.direction === 'left') player.position.x -= 1
     if (player.direction === 'right') player.position.x += 1
     if (player.position.x === applePosition.x && player.position.y === applePosition.y) {
-      applePosition.x = getRandomInteger(0, SIZE / PLAYER_SIZE)
-      applePosition.y = getRandomInteger(0, SIZE / PLAYER_SIZE)
+      repositionApple()
     }
   })
   const playersAsArray = Array.from(players.values())
@@ -33,4 +32,9 @@ function gameCycle (): void {
       players: playersAsArray
     }))
   })
+}
+
+function repositionApple () {
+  applePosition.x = getRandomInteger(0, SIZE / PLAYER_SIZE)
+  applePosition.y = getRandomInteger(0, SIZE / PLAYER_SIZE)
 }
