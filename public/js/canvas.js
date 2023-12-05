@@ -5,6 +5,64 @@ dialog.showModal()
 
 const usernameSubmit = document.getElementById('username-submit')
 
+class Painter {
+  #ctx
+
+  constructor(ctx) {
+    this.#ctx = ctx
+  }
+
+  #setColor(color) {
+    this.#ctx.fillStyle = color
+  }
+
+  drawSquare(position, size, color) {
+    this.#setColor(color)
+    this.#ctx.fillRect(position.x * size, position.y * size, size, size)
+  }
+}
+
+class Square extends Painter{
+  #size
+  #position
+  #color
+
+  constructor({
+    ctx, position, size, color
+  }) {
+    super(ctx)
+    this.#size = size
+    this.#position = position
+    this.#color = color
+  }
+
+  draw() {
+    this.drawSquare(this.#position, this.#size, this.#color)
+  }
+}
+
+class Player extends Square {
+  #color
+  name
+
+  constructor(ctx, playerSize, color, name, position) {
+    super(ctx, playerSize, position)
+    this.color = color
+    this.name = name
+  }
+
+  draw() {
+    super.draw()
+
+  }
+
+  #drawName() {
+    this.getContext().font = "20px sans-serif"
+    this.getContext().textAlign = "center"
+    this.getContext().fillText(this.name, this.position.x * this.#playerSize + options.playerSize / 2, player.position.y * options.playerSize - 5)
+  }
+}
+
 class SnakeCanvas{
   #ctx
   #size
