@@ -2,7 +2,7 @@ import { type RGB } from './utils'
 import { getRandomInteger } from './utils'
 import { players } from './game'
 
-export type Direction = 'up' | 'down' | 'left' | 'right' | 'stopped'
+export type Direction = 'up' | 'down' | 'left' | 'right'
 
 export interface PlayerData {
   name: string
