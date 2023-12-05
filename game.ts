@@ -16,10 +16,7 @@ export const players = new Map<string, Player>()
 
 function gameCycle (): void {
   players.forEach(player => {
-    if (player.direction === 'up') player.position.y -= 1
-    if (player.direction === 'down') player.position.y += 1
-    if (player.direction === 'left') player.position.x -= 1
-    if (player.direction === 'right') player.position.x += 1
+    movePlayer(player)
     if (player.position.x === applePosition.x && player.position.y === applePosition.y) {
       repositionApple()
       grow(player)
@@ -38,4 +35,11 @@ function gameCycle (): void {
 function repositionApple () {
   applePosition.x = getRandomInteger(0, SIZE / PLAYER_SIZE)
   applePosition.y = getRandomInteger(0, SIZE / PLAYER_SIZE)
+}
+
+function movePlayer (player: Player) {
+  if (player.direction === 'up') player.position.y -= 1
+  if (player.direction === 'down') player.position.y += 1
+  if (player.direction === 'left') player.position.x -= 1
+  if (player.direction === 'right') player.position.x += 1
 }
