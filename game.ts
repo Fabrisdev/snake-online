@@ -38,8 +38,19 @@ function repositionApple () {
 }
 
 function movePlayer (player: Player) {
+  moveBody(player)
+  moveHead(player)
+}
+
+function moveHead (player: Player) {
   if (player.direction === 'up') player.position.y -= 1
   if (player.direction === 'down') player.position.y += 1
   if (player.direction === 'left') player.position.x -= 1
   if (player.direction === 'right') player.position.x += 1
+}
+
+function moveBody (player: Player) {
+  for (let i = player.body.length - 1; i >= 0; i--) {
+    player.body[i] = structuredClone(player.body[i - 1]) ?? structuredClone(player.position)
+  }
 }
