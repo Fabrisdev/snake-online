@@ -16,7 +16,7 @@ export default class Board extends Painter {
       for(let y = 0; y < this.#size / this.#playerSize; y++){
         if(x !== 0 && y === 0) currentColor = x % 2 !== 0 ? "#a2d34c" : "#aada54"
         currentColor = currentColor === "#aada54" ? "#a2d34c" : "#aada54"
-        super.drawSquare(x, y, currentColor)
+        super.drawSquare({ x, y }, this.#playerSize, currentColor)
       }
     }
   }
