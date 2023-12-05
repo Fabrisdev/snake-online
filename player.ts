@@ -54,5 +54,5 @@ function getRandomRGB (): `rgb(${number}, ${number}, ${number})` {
 }
 
 export function grow (player: Player) {
-
+  player.body.push(structuredClone(player.body.at(-1) ?? player.position))
 }
