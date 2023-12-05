@@ -16,8 +16,17 @@ class SnakeCanvas{
     this.#size = size
   }
 
-  drawPlayer(x, y, color) {
+  drawPlayers(players) {
+    players.forEach(player => {
+      this.#drawPlayer(player.position.x, player.position.y, player.color)
+    })
+  }
+
+  #drawPlayer(x, y, color) {
     this.#drawSquare(x, y, color)
+    this.#ctx.font = "20px sans-serif"
+    this.#ctx.textAlign = "center"
+    this.#ctx.fillText(player.name, player.position.x * options.playerSize + options.playerSize / 2, player.position.y * options.playerSize - 5)
   }
 
   drawApple(x, y) {
@@ -42,7 +51,23 @@ class SnakeCanvas{
 }
 
 class GameManager{
+  #canvas
+  
+  constructor(canvas, { size, playerSize }){
+    canvas.width = size
+    canvas.height = size
+    this.#canvas = new SnakeCanvas(canvas.getContext('2d'), { size, playerSize })
+  }
 
+  draw(data) {
+    this.#canvas.drawBackground()
+    this.#canvas.drawApple(gameInfo.apple)
+    drawPlayers(gameInfo.players)
+  }
+
+  drawPlayers() {
+
+  }
 }
 
 function registerToPlay(){
