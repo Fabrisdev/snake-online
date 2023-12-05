@@ -5,7 +5,6 @@ export const Direction = {
   LEFT: "left",
   UP: "up",
   DOWN: "down",
-  STOPPED: "stopped"
 }
 
 export function sendDirection(name, direction){
