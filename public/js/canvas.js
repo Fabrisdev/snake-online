@@ -86,7 +86,7 @@ class Apple extends Square {
   }
 }
 
-class SnakeCanvas{
+class BoardCanvas{
   #ctx
   #size
   #playerSize
