@@ -9,14 +9,17 @@ export interface PlayerData {
   direction: Direction
 }
 
+interface Position {
+  x: number
+  y: number
+}
+
 export interface Player {
   name: string
-  position: {
-    x: number
-    y: number
-  }
+  position: Position
   direction: Direction
   color: RGB
+  body: Position[]
 }
 
 interface RegisterPlayer {
@@ -32,7 +35,8 @@ export function registerPlayer ({ clientId, players, playerData }: RegisterPlaye
       y: 0
     },
     color: getRandomRGB(),
-    ...playerData
+    ...playerData,
+    body: []
   })
 }
 
@@ -47,4 +51,8 @@ function getRandomRGB (): `rgb(${number}, ${number}, ${number})` {
   const green = getRandomInteger(0, 255)
   const blue = getRandomInteger(0, 255)
   return `rgb(${red}, ${green}, ${blue})`
+}
+
+export function grow (player: Player) {
+  player.body.push(structuredClone(player.body.at(-1) ?? player.position))
 }

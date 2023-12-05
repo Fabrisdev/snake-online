@@ -1,6 +1,6 @@
 import Board from "./board.js"
 import Apple from "./apple.js"
-import Player from "./player.js"
+import Player from "./snake.js"
 
 export default class GameManager{
   #ctx
@@ -14,8 +14,8 @@ export default class GameManager{
   }
 
   draw(data) {
-    this.drawApple(data.apple)
     this.drawBackground()
+    this.drawApple(data.apple)
     this.drawPlayers(data.players)
   }
 
@@ -24,6 +24,7 @@ export default class GameManager{
       new Player({
         ctx: this.#ctx,
         position: player.position,
+        body: player.body,
         size: this.#playerSize,
         color: player.color,
         name: player.name,
@@ -36,7 +37,7 @@ export default class GameManager{
       ctx: this.#ctx,
       position,
       size: this.#playerSize
-    })
+    }).draw()
   }
 
   drawBackground() {
