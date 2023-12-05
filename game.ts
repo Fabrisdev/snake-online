@@ -69,6 +69,7 @@ function collisionedAgainstPlayers () {
 
 function collisionedAgainstWalls (parts: Position[]) {
   return parts.some(({ x, y }) => {
-    return x < 0 || x >= SIZE / PLAYER_SIZE
+    return x < 0 || x >= SIZE / PLAYER_SIZE ||
+           y < 0 || y >= SIZE / PLAYER_SIZE
   })
 }
