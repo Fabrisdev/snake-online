@@ -69,6 +69,19 @@ class Player extends Square {
   }
 }
 
+class Apple extends Square {
+  constructor({
+    ctx, position, size
+  }) {
+    super({
+      ctx, 
+      position, 
+      size, 
+      color: '#f00'
+    })
+  }
+}
+
 class SnakeCanvas{
   #ctx
   #size
