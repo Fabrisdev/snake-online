@@ -1,10 +1,10 @@
-import Square from "./square.js"
+import Painter from "./painter.js"
 
-export default class Player extends Square {
+export default class Player extends Painter {
   #name
 
   constructor({ 
-    ctx, position, size, color, name
+    ctx, position, body, size, color, name
   }) {
     super({ 
       ctx, position, size, color
