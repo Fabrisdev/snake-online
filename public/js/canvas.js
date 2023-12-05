@@ -12,13 +12,13 @@ class Painter {
     this.#ctx = ctx
   }
 
-  #setColor(color) {
-    this.#ctx.fillStyle = color
-  }
-
   drawSquare(position, size, color) {
     this.#setColor(color)
     this.#ctx.fillRect(position.x * size, position.y * size, size, size)
+  }
+
+  #setColor(color) {
+    this.#ctx.fillStyle = color
   }
 }
 
