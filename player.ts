@@ -9,7 +9,7 @@ export interface PlayerData {
   direction: Direction
 }
 
-interface Position {
+export interface Position {
   x: number
   y: number
 }
