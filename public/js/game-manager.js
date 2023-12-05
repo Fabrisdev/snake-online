@@ -14,8 +14,8 @@ export default class GameManager{
   }
 
   draw(data) {
-    this.drawApple(data.apple)
     this.drawBackground()
+    this.drawApple(data.apple)
     this.drawPlayers(data.players)
   }
 
@@ -36,7 +36,7 @@ export default class GameManager{
       ctx: this.#ctx,
       position,
       size: this.#playerSize
-    })
+    }).draw()
   }
 
   drawBackground() {
