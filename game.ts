@@ -15,8 +15,12 @@ const applePosition = {
 export const players = new Map<string, Player>()
 
 function gameCycle (): void {
-  players.forEach(player => {
+  players.forEach((player, key) => {
     movePlayer(player)
+    if (hasCollisioned(player)) {
+      players.delete(key)
+      return
+    }
     if (player.position.x === applePosition.x && player.position.y === applePosition.y) {
       repositionApple()
       grow(player)
@@ -53,4 +57,16 @@ function moveBody (player: Player) {
   for (let i = player.body.length - 1; i >= 0; i--) {
     player.body[i] = structuredClone(player.body[i - 1]) ?? structuredClone(player.position)
   }
+}
+
+function hasCollisioned (player: Player) {
+  return collisionedAgainstPlayers() || collisionedAgainstWalls()
+}
+
+function collisionedAgainstPlayers () {
+  return true
+}
+
+function collisionedAgainstWalls () {
+  return false
 }
