@@ -19,12 +19,8 @@ class Painter {
   }
 
   drawSquare(position, size, color) {
-    this.#setColor(color)
-    this.#ctx.fillRect(position.x * size, position.y * size, size, size)
-  }
-
-  #setColor(color) {
     this.#ctx.fillStyle = color
+    this.#ctx.fillRect(position.x * size, position.y * size, size, size)
   }
 }
 
