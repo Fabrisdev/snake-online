@@ -68,8 +68,8 @@ class Player extends Square {
     this.#drawName(this.#name, super.getPosition().x * super.getSize() + super.getSize() / 2, super.getPosition().y * super.getSize() - 5)
   }
 
-  #drawName() {
-    this.drawText()
+  #drawName(name, position) {
+    this.drawText(name, position)
   }
 }
 
