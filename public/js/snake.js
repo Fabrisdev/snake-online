@@ -2,13 +2,19 @@ import Painter from "./painter.js"
 
 export default class Player extends Painter {
   #name
+  #position
+  #body
+  #size
+  #color
 
   constructor({ 
     ctx, position, body, size, color, name
   }) {
-    super({ 
-      ctx, position, size, color
-    })
+    super(ctx)
+    this.#position = position
+    this.#body = body
+    this.#size = size
+    this.#color = color
     this.#name = name
   }
   
