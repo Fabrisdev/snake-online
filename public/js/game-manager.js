@@ -1,6 +1,6 @@
 import Board from "./board.js"
 import Apple from "./apple.js"
-import Player from "./player.js"
+import Player from "./snake.js"
 
 export default class GameManager{
   #ctx
@@ -24,6 +24,7 @@ export default class GameManager{
       new Player({
         ctx: this.#ctx,
         position: player.position,
+        body: player.body,
         size: this.#playerSize,
         color: player.color,
         name: player.name,
