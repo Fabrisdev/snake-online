@@ -12,10 +12,10 @@ class Painter {
     this.#ctx = ctx
   }
 
-  drawName(name, position) {
+  drawText(text, position) {
     this.#ctx.font = "20px sans-serif"
     this.#ctx.textAlign = "center"
-    this.#ctx.fillText(name, position.x, position.y)
+    this.#ctx.fillText(text, position.x, position.y)
   }
 
   drawSquare(position, size, color) {
@@ -65,7 +65,11 @@ class Player extends Square {
   
   draw() {
     super.draw()
-    super.drawName(this.#name, super.getPosition().x * super.getSize() + super.getSize() / 2, super.getPosition().y * super.getSize() - 5)
+    this.#drawName(this.#name, super.getPosition().x * super.getSize() + super.getSize() / 2, super.getPosition().y * super.getSize() - 5)
+  }
+
+  #drawName() {
+    this.drawText()
   }
 }
 
