@@ -1,90 +1,18 @@
 import { socket } from './ws.js'
+import player from './player.js'
 
 const dialog = document.querySelector('dialog')
 dialog.showModal()
 
 const usernameSubmit = document.getElementById('username-submit')
 
-class Painter {
-  #ctx
 
-  constructor(ctx) {
-    this.#ctx = ctx
-  }
 
-  drawText(text, position) {
-    this.#ctx.font = "20px sans-serif"
-    this.#ctx.textAlign = "center"
-    this.#ctx.fillText(text, position.x, position.y)
-  }
 
-  drawSquare(position, size, color) {
-    this.#ctx.fillStyle = color
-    this.#ctx.fillRect(position.x * size, position.y * size, size, size)
-  }
-}
 
-class Square extends Painter{
-  #size
-  #position
-  #color
 
-  constructor({
-    ctx, position, size, color
-  }) {
-    super(ctx)
-    this.#size = size
-    this.#position = position
-    this.#color = color
-  }
 
-  draw() {
-    this.drawSquare(this.#position, this.#size, this.#color)
-  }
 
-  getPosition() {
-    return this.#position
-  }
-
-  getSize() {
-    return this.#size
-  }
-}
-
-class Player extends Square {
-  #name
-
-  constructor({ 
-    ctx, position, size, color, name
-  }) {
-    super({ 
-      ctx, position, size, color
-    })
-    this.#name = name
-  }
-  
-  draw() {
-    super.draw()
-    this.#drawName(this.#name, super.getPosition().x * super.getSize() + super.getSize() / 2, super.getPosition().y * super.getSize() - 5)
-  }
-
-  #drawName(name, position) {
-    this.drawText(name, position)
-  }
-}
-
-class Apple extends Square {
-  constructor({
-    ctx, position, size
-  }) {
-    super({
-      ctx, 
-      position, 
-      size, 
-      color: '#f00'
-    })
-  }
-}
 
 class BoardCanvas{
   #ctx
