@@ -1,6 +1,6 @@
 import { wss } from './index'
 import { getRandomInteger } from './utils'
-import { grow, Position, type Player } from './player'
+import { grow, type Position, type Player } from './player'
 
 const CYCLE_SPEED = 200
 setInterval(gameCycle, CYCLE_SPEED)
@@ -64,9 +64,11 @@ function hasCollisioned (player: Player) {
 }
 
 function collisionedAgainstPlayers () {
-  return true
+  return false
 }
 
-function collisionedAgainstWalls (position: Position[]) {
-  
+function collisionedAgainstWalls (parts: Position[]) {
+  return parts.some(({ x, y }) => {
+    return x < 0 || x >= SIZE / PLAYER_SIZE
+  })
 }
