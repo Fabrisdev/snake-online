@@ -52,3 +52,7 @@ function getRandomRGB (): `rgb(${number}, ${number}, ${number})` {
   const blue = getRandomInteger(0, 255)
   return `rgb(${red}, ${green}, ${blue})`
 }
+
+export function grow (player: Player) {
+
+}

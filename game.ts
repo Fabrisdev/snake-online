@@ -1,6 +1,6 @@
 import { wss } from './index'
 import { getRandomInteger } from './utils'
-import { type Player } from './player'
+import { grow, type Player } from './player'
 
 const CYCLE_SPEED = 200
 setInterval(gameCycle, CYCLE_SPEED)
@@ -22,6 +22,7 @@ function gameCycle (): void {
     if (player.direction === 'right') player.position.x += 1
     if (player.position.x === applePosition.x && player.position.y === applePosition.y) {
       repositionApple()
+      grow(player)
     }
   })
   const playersAsArray = Array.from(players.values())
