@@ -41,27 +41,31 @@ class Square extends Painter{
   draw() {
     this.drawSquare(this.#position, this.#size, this.#color)
   }
+
+  getPosition() {
+    return this.#position
+  }
+
+  getSize() {
+    return this.#size
+  }
 }
 
 class Player extends Square {
-  #color
-  name
+  #name
 
-  constructor(ctx, playerSize, color, name, position) {
-    super(ctx, playerSize, position)
-    this.color = color
-    this.name = name
+  constructor({ 
+    ctx, position, size, color, name
+  }) {
+    super({ 
+      ctx, position, size, color
+    })
+    this.#name = name
   }
-
+  
   draw() {
     super.draw()
-
-  }
-
-  #drawName() {
-    this.getContext().font = "20px sans-serif"
-    this.getContext().textAlign = "center"
-    this.getContext().fillText(this.name, this.position.x * this.#playerSize + options.playerSize / 2, player.position.y * options.playerSize - 5)
+    super.drawName(this.#name, super.getPosition().x * super.getSize() + super.getSize() / 2, super.getPosition().y * super.getSize() - 5)
   }
 }
 
