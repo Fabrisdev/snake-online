@@ -22,7 +22,6 @@ function registerToPlay(){
     if(event.key === "d") sendDirection(usernameInput.value, Direction.RIGHT)
     if(event.key === "a") sendDirection(usernameInput.value, Direction.LEFT)
     if(event.key === "s") sendDirection(usernameInput.value, Direction.DOWN)
-    if(event.key === "f") sendDirection(usernameInput.value, Direction.STOPPED)
   })
 }
 

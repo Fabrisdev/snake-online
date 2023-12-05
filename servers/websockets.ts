@@ -7,7 +7,7 @@ import { type PlayerData } from '../player'
 
 const ClientData = z.object({
   name: z.string().min(1).max(12),
-  direction: z.enum(['up', 'down', 'left', 'right', 'stopped'])
+  direction: z.enum(['up', 'down', 'left', 'right'])
 })
 
 export function startWebSocketsServer () {
