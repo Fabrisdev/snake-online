@@ -12,6 +12,12 @@ class Painter {
     this.#ctx = ctx
   }
 
+  drawName(name, position) {
+    this.getContext().font = "20px sans-serif"
+    this.getContext().textAlign = "center"
+    this.getContext().fillText(name, position.x, position.y)
+  }
+
   drawSquare(position, size, color) {
     this.#setColor(color)
     this.#ctx.fillRect(position.x * size, position.y * size, size, size)
