@@ -9,12 +9,14 @@ export interface PlayerData {
   direction: Direction
 }
 
+interface Position {
+  x: number
+  y: number
+}
+
 export interface Player {
   name: string
-  position: {
-    x: number
-    y: number
-  }
+  position: Position
   direction: Direction
   color: RGB
 }
