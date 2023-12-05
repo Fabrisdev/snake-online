@@ -14,7 +14,10 @@ export default class Player extends Square {
   
   draw() {
     super.draw()
-    this.#drawName(this.#name, super.getPosition().x * super.getSize() + super.getSize() / 2, super.getPosition().y * super.getSize() - 5)
+    this.#drawName(this.#name, {
+      x: super.getPosition().x * super.getSize() + super.getSize() / 2, 
+      y: super.getPosition().y * super.getSize() - 5
+    })
   }
 
   #drawName(name, position) {
