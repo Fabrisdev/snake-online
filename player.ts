@@ -19,6 +19,7 @@ export interface Player {
   position: Position
   direction: Direction
   color: RGB
+  body: Position[]
 }
 
 interface RegisterPlayer {
