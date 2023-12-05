@@ -19,12 +19,19 @@ export default class Player extends Painter {
   }
   
   draw() {
+    this.drawBody()
     this.drawHead()
     this.drawName()
   }
 
   drawHead() {
     super.drawSquare(this.#position, this.#size, this.#color)
+  }
+
+  drawBody() {
+    this.#body.forEach(part => {
+      super.drawSquare(part, this.#size, this.#color)
+    })
   }
 
   drawName() {
