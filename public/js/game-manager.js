@@ -1,19 +1,45 @@
+import Board from "./board.js"
+import Apple from "./apple.js"
+import Player from "./player.js"
+
 export default class GameManager{
-  #canvas
-  
-  constructor(canvas, { size, playerSize }){
-    canvas.width = size
-    canvas.height = size
-    this.#canvas = new SnakeCanvas(canvas.getContext('2d'), { size, playerSize })
+  #ctx
+  #size
+  #playerSize
+
+  constructor(ctx, { size, playerSize }){
+    this.#ctx = ctx
+    this.#size = size
+    this.#playerSize = playerSize
   }
 
   draw(data) {
-    this.#canvas.drawBackground()
-    this.#canvas.drawApple(gameInfo.apple)
-    drawPlayers(gameInfo.players)
+    this.drawApple(data.apple)
+    this.drawBackground()
+    this.drawPlayers(data.players)
   }
 
-  drawPlayers() {
+  drawPlayers(players) {
+    players.forEach(player => {
+      new Player({
+        ctx: this.#ctx,
+        position: player.position,
+        size: this.#playerSize,
+        color: player.color,
+        name: player.name,
+      }).draw()
+    })
+  }
 
+  drawApple(position) {
+    new Apple({
+      ctx: this.#ctx,
+      position,
+      size: this.#playerSize
+    })
+  }
+
+  drawBackground() {
+    new Board(this.#ctx, this.#size, this.#playerSize).draw()
   }
 }
