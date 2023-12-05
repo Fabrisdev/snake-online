@@ -20,13 +20,17 @@ export default class Player extends Painter {
   
   draw() {
     this.drawHead()
-    super.drawText(this.#name, {
-      x: this.#position.x * this.#size + this.#size / 2, 
-      y: this.#position.y * this.#size - 5
-    })
+    this.drawName()
   }
 
   drawHead() {
     super.drawSquare(this.#position, this.#size, this.#color)
+  }
+
+  drawName() {
+    super.drawText(this.#name, {
+      x: this.#position.x * this.#size + this.#size / 2, 
+      y: this.#position.y * this.#size - 5
+    })
   }
 }
