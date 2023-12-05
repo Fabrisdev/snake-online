@@ -35,7 +35,8 @@ export function registerPlayer ({ clientId, players, playerData }: RegisterPlaye
       y: 0
     },
     color: getRandomRGB(),
-    ...playerData
+    ...playerData,
+    body: []
   })
 }
 
