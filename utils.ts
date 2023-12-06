@@ -7,8 +7,20 @@ export function getUniqueId (): string {
 }
 
 export function getRandomColor () {
-  const red = getRandomInteger(0, 255)
-  const green = getRandomInteger(0, 255)
-  const blue = getRandomInteger(0, 255)
+  const backgroundColor = [162, 214, 79]
+  let red = getRandomInteger(0, 255)
+  let green = getRandomInteger(0, 255)
+  let blue = getRandomInteger(0, 255)
+  let redDifference = Math.abs(backgroundColor[0] - red)
+  let greenDifference = Math.abs(backgroundColor[1] - green)
+  let blueDifference = Math.abs(backgroundColor[2] - blue)
+  while (redDifference < 80 && greenDifference < 80 && blueDifference < 80) {
+    red = getRandomInteger(0, 255)
+    green = getRandomInteger(0, 255)
+    blue = getRandomInteger(0, 255)
+    redDifference = Math.abs(backgroundColor[0] - red)
+    greenDifference = Math.abs(backgroundColor[1] - green)
+    blueDifference = Math.abs(backgroundColor[2] - blue)
+  }
   return `rgb(${red}, ${green}, ${blue})`
 }
