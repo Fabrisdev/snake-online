@@ -1,6 +1,6 @@
 import { wss } from './index'
 import { getRandomInteger } from './utils'
-import { grow, type Player } from './player'
+import { grow, type Position, type Player } from './player'
 
 const CYCLE_SPEED = 200
 setInterval(gameCycle, CYCLE_SPEED)
@@ -15,8 +15,12 @@ const applePosition = {
 export const players = new Map<string, Player>()
 
 function gameCycle (): void {
-  players.forEach(player => {
+  players.forEach((player, key) => {
     movePlayer(player)
+    if (hasCollisioned(player)) {
+      players.delete(key)
+      return
+    }
     if (player.position.x === applePosition.x && player.position.y === applePosition.y) {
       repositionApple()
       grow(player)
@@ -52,5 +56,40 @@ function moveHead (player: Player) {
 function moveBody (player: Player) {
   for (let i = player.body.length - 1; i >= 0; i--) {
     player.body[i] = structuredClone(player.body[i - 1]) ?? structuredClone(player.position)
+  }
+}
+
+function hasCollisioned (player: Player) {
+  return collisionedAgainstPlayers(player) || collisionedAgainstWalls([player.position, ...player.body])
+
+  function collisionedAgainstPlayers (player: Player) {
+    return [...players.values()].some(somePlayer => {
+      if (somePlayer === player) {
+        return collisionedAgainstItself()
+      }
+      return collisionedAgainstOtherPlayers(somePlayer)
+    })
+
+    function collisionedAgainstItself () {
+      for (let i = 0; i < player.body.length; i++) {
+        if (player.position.x === player.body[i].x && player.position.y === player.body[i].y) return true
+      }
+      return false
+    }
+
+    function collisionedAgainstOtherPlayers (somePlayer: Player) {
+      if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
+      for (let i = 0; i < somePlayer.body.length; i++) {
+        if (player.position.x === somePlayer.body[i].x && player.position.y === somePlayer.body[i].y) return true
+      }
+      return false
+    }
+  }
+
+  function collisionedAgainstWalls (parts: Position[]) {
+    return parts.some(({ x, y }) => {
+      return x < 0 || x >= SIZE / PLAYER_SIZE ||
+             y < 0 || y >= SIZE / PLAYER_SIZE
+    })
   }
 }

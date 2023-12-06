@@ -1,9 +1,8 @@
 import { getUniqueId } from '../utils'
-import { registerPlayer, updatePlayerDirection } from '../player'
+import { type Direction, registerPlayer, updatePlayerDirection, type PlayerData } from '../player'
 import { players } from '../game'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
-import { type PlayerData } from '../player'
 
 const ClientData = z.object({
   name: z.string().min(1).max(12),
@@ -18,6 +17,7 @@ export function startWebSocketsServer () {
     ws.on('message', data => {
       const clientData = validateClientData(data)
       if (!clientData.success) return
+      if (!validateDirection(clientId, clientData.data.direction)) return
       handleMessage(clientId, clientData.data)
     })
 
@@ -32,6 +32,16 @@ function validateClientData (clientData: RawData) {
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const dataAsJson = JSON.parse(clientData.toString())
   return ClientData.safeParse(dataAsJson)
+}
+
+function validateDirection (clientId: string, newDirection: Direction) {
+  const player = players.get(clientId)
+  if (player === undefined) return true
+  if (player.direction === 'left' && newDirection === 'right') return false
+  if (player.direction === 'right' && newDirection === 'left') return false
+  if (player.direction === 'up' && newDirection === 'down') return false
+  if (player.direction === 'down' && newDirection === 'up') return false
+  return true
 }
 
 function handleMessage (clientId: string, data: PlayerData) {
