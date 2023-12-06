@@ -61,27 +61,35 @@ function moveBody (player: Player) {
 
 function hasCollisioned (player: Player) {
   return collisionedAgainstPlayers(player) || collisionedAgainstWalls([player.position, ...player.body])
-}
 
-function collisionedAgainstPlayers (player: Player) {
-  return [...players.values()].some(somePlayer => {
-    if (somePlayer === player) {
+  function collisionedAgainstPlayers (player: Player) {
+    return [...players.values()].some(somePlayer => {
+      if (somePlayer === player) {
+        return collisionedAgainstItself()
+      }
+      return collisionedAgainstOtherPlayers(somePlayer)
+    })
+
+    function collisionedAgainstItself () {
       for (let i = 0; i < player.body.length; i++) {
         if (player.position.x === player.body[i].x && player.position.y === player.body[i].y) return true
       }
       return false
     }
-    if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
-    for (let i = 0; i < somePlayer.body.length; i++) {
-      if (player.position.x === somePlayer.body[i].x && player.position.y === somePlayer.body[i].y) return true
-    }
-    return false
-  })
-}
 
-function collisionedAgainstWalls (parts: Position[]) {
-  return parts.some(({ x, y }) => {
-    return x < 0 || x >= SIZE / PLAYER_SIZE ||
-           y < 0 || y >= SIZE / PLAYER_SIZE
-  })
+    function collisionedAgainstOtherPlayers (somePlayer: Player) {
+      if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
+      for (let i = 0; i < somePlayer.body.length; i++) {
+        if (player.position.x === somePlayer.body[i].x && player.position.y === somePlayer.body[i].y) return true
+      }
+      return false
+    }
+  }
+
+  function collisionedAgainstWalls (parts: Position[]) {
+    return parts.some(({ x, y }) => {
+      return x < 0 || x >= SIZE / PLAYER_SIZE ||
+             y < 0 || y >= SIZE / PLAYER_SIZE
+    })
+  }
 }
