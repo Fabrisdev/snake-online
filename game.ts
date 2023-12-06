@@ -60,11 +60,21 @@ function moveBody (player: Player) {
 }
 
 function hasCollisioned (player: Player) {
-  return collisionedAgainstPlayers() || collisionedAgainstWalls([player.position, ...player.body])
+  return collisionedAgainstPlayers(player) || collisionedAgainstWalls([player.position, ...player.body])
 }
 
-function collisionedAgainstPlayers () {
-  return false
+function collisionedAgainstPlayers (player: Player) {
+  return [...players.values()].some(somePlayer => {
+    if (somePlayer === player) return false
+    if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
+    for (let i = 0; i < somePlayer.body.length; i++) {
+      for (let j = 0; j < player.body.length; j++) {
+        if (player.position.x === somePlayer.body[i].x && player.position.y === somePlayer.body[i].y) return true
+        if (somePlayer.body[i].x === player.body[j].x && somePlayer.body[i].y === player.body[j].y) return true
+      }
+    }
+    return false
+  })
 }
 
 function collisionedAgainstWalls (parts: Position[]) {
