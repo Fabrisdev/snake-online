@@ -65,7 +65,12 @@ function hasCollisioned (player: Player) {
 
 function collisionedAgainstPlayers (player: Player) {
   return [...players.values()].some(somePlayer => {
-    if (somePlayer === player) return false
+    if (somePlayer === player) {
+      for (let i = 0; i < player.body.length; i++) {
+        if (player.position.x === player.body[i].x && player.position.y === player.body[i].y) return true
+      }
+      return false
+    }
     if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
     for (let i = 0; i < somePlayer.body.length; i++) {
       for (let j = 0; j < player.body.length; j++) {
