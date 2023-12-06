@@ -6,4 +6,9 @@ export function getUniqueId (): string {
   return Math.random().toString(36).substring(2, 15)
 }
 
-export type RGB = `rgb(${number}, ${number}, ${number})`
+export function getRandomColor () {
+  const red = getRandomInteger(0, 255)
+  const green = getRandomInteger(0, 255)
+  const blue = getRandomInteger(0, 255)
+  return `rgb(${red}, ${green}, ${blue})`
+}
