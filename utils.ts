@@ -14,7 +14,7 @@ export function getRandomColor () {
   let redDifference = Math.abs(backgroundColor[0] - red)
   let greenDifference = Math.abs(backgroundColor[1] - green)
   let blueDifference = Math.abs(backgroundColor[2] - blue)
-  while (redDifference < 80 && greenDifference < 80 && blueDifference < 80) {
+  while (redDifference < 30 && greenDifference < 30 && blueDifference < 30) {
     red = getRandomInteger(0, 255)
     green = getRandomInteger(0, 255)
     blue = getRandomInteger(0, 255)
