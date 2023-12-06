@@ -7,20 +7,24 @@ export function getUniqueId (): string {
 }
 
 export function getRandomColor () {
-  const backgroundColor = [162, 214, 79]
+  const backgroundColorSaturation = rgb2hsv(162, 214, 79)[1]
   let red = getRandomInteger(0, 255)
   let green = getRandomInteger(0, 255)
   let blue = getRandomInteger(0, 255)
-  let redDifference = Math.abs(backgroundColor[0] - red)
-  let greenDifference = Math.abs(backgroundColor[1] - green)
-  let blueDifference = Math.abs(backgroundColor[2] - blue)
-  while (redDifference < 30 && greenDifference < 30 && blueDifference < 30) {
+  let saturation = rgb2hsv(red, green, blue)[1]
+  while (Math.abs(saturation - backgroundColorSaturation) > 0.1) {
     red = getRandomInteger(0, 255)
     green = getRandomInteger(0, 255)
     blue = getRandomInteger(0, 255)
-    redDifference = Math.abs(backgroundColor[0] - red)
-    greenDifference = Math.abs(backgroundColor[1] - green)
-    blueDifference = Math.abs(backgroundColor[2] - blue)
+    saturation = rgb2hsv(red, green, blue)[1]
   }
   return `rgb(${red}, ${green}, ${blue})`
+}
+
+function rgb2hsv (r: number, g: number, b: number) {
+  const v = Math.max(r, g, b); const c = v - Math.min(r, g, b)
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  const h = c && ((v === r) ? (g - b) / c : ((v === g) ? 2 + (b - r) / c : 4 + (r - g) / c))
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  return [60 * (h < 0 ? h + 6 : h), v && c / v, v]
 }
