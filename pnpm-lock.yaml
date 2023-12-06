@@ -12,6 +12,9 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
+  '@types/contrast-color':
+    specifier: ^1.0.3
+    version: 1.0.3
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
@@ -136,6 +139,10 @@ packages:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
       '@types/node': 20.10.1
+    dev: true
+
+  /@types/contrast-color@1.0.3:
+    resolution: {integrity: sha512-D4xFbzgt7p6o2I6e6vxxbSuDw8VbTDb6XGurz2MFi39WmmlDRmPvEcATqsfLShLM8GxrhZ0gWT+9VdGnC1DCTA==}
     dev: true
 
   /@types/express-serve-static-core@4.17.41:
