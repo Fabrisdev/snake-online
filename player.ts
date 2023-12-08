@@ -12,26 +12,6 @@ export interface Position {
   y: number
 }
 
-export interface PlayerA {
-  name: string
-  position: Position
-  direction: Direction
-  color: string
-  body: Position[]
-}
-
-export function registerPlayer ({ clientId, players, playerData }: RegisterPlayer): void {
-  players.set(clientId, {
-    position: {
-      x: 0,
-      y: 0
-    },
-    color: getRandomColor(),
-    ...playerData,
-    body: []
-  })
-}
-
 export default class Player {
   readonly name
   readonly color = getRandomColor()
