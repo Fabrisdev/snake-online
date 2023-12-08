@@ -33,6 +33,10 @@ export default class Player {
     this.moveHead()
   }
 
+  hasAteApple (apple: Position) {
+    return this.head.x === apple.x && this.head.y === apple.y
+  }
+
   private moveHead () {
     if (this.direction === 'up') this.head.y -= 1
     if (this.direction === 'down') this.head.y += 1
