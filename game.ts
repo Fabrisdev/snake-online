@@ -1,16 +1,17 @@
-import { type Player } from './player'
+import { type Position, type Player } from './player'
+import { getRandomPosition } from './utils'
 
 export class Game {
   private readonly mapSize: number
-  private readonly playerSize: number
+  private readonly playerSize = 25
   private readonly host: Player
-  private readonly players: Map<string, Player>
+  private readonly players = new Map<string, Player>()
+  private readonly apple: Position
 
-  constructor (host: Player, mapSize?: number, playerSize?: number) {
+  constructor (host: Player, mapSize?: number) {
     this.host = host
-    this.players = new Map()
-    this.mapSize = mapSize ?? 500
-    this.playerSize = playerSize ?? 25
+    this.mapSize = mapSize ?? 10
+    this.apple = getRandomPosition(0, this.mapSize)
   }
 
   addPlayer (id: string, player: Player) {
