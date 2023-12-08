@@ -42,3 +42,16 @@ export default class Game {
 
   }
 }
+
+function sendInformationToPlayers (players: Map<string, Player>, information: Information) {
+  [...players.keys()].forEach(id => {
+    const client = clients.get(id)
+    if (client === undefined) return
+    client.send(JSON.stringify(information))
+  })
+}
+
+interface Information {
+  apple: Position
+  players: Player[]
+}
