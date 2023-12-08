@@ -11,10 +11,6 @@ export function getRandomPosition (min: number, max: number): Position {
   }
 }
 
-export function getUniqueId (): string {
-  return Math.random().toString(36).substring(2, 15)
-}
-
 export function getRandomColor () {
   const backgroundColorSaturation = rgb2hsv(162, 214, 79)[1]
   let red = getRandomInteger(0, 255)

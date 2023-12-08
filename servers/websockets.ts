@@ -1,6 +1,4 @@
-import { getUniqueId } from '../utils'
-import { type Direction, registerPlayer, updatePlayerDirection, type PlayerData } from '../player'
-import { players } from '../game-manager'
+import { type Direction, type PlayerData } from '../player'
 import type WebSocket from 'ws'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
@@ -25,7 +23,6 @@ export function startWebSocketsServer () {
     })
 
     ws.on('close', () => {
-      players.delete(clientId)
       clients.delete(clientId)
     })
   })
@@ -58,4 +55,8 @@ function handleMessage (clientId: string, data: PlayerData) {
     return
   }
   updatePlayerDirection(clientId, data.direction)
+}
+
+function getUniqueId (): string {
+  return Math.random().toString(36).substring(2, 15)
 }
