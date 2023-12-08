@@ -36,6 +36,10 @@ function gameCycle (): void {
   })
 }
 
+class Game {
+  
+}
+
 function repositionApple () {
   applePosition.x = getRandomInteger(0, SIZE / PLAYER_SIZE)
   applePosition.y = getRandomInteger(0, SIZE / PLAYER_SIZE)
