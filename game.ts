@@ -1,7 +1,6 @@
 import { type Position, type Player, type Direction } from './player'
 import { getRandomPosition } from './utils'
 import { clients } from './servers/websockets'
-import { type CustomWebSocket } from './servers/websockets'
 
 interface Options {
   ticksPerSecond?: number
