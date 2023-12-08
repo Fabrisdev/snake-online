@@ -1,4 +1,5 @@
-import { type Position, type Player, type Direction, movePlayer, hasCollisioned, grow } from './player'
+import type Player from './player'
+import { type Position, type Direction } from './player'
 import { getRandomPosition } from './utils'
 import { clients } from './servers/websockets'
 
@@ -43,7 +44,7 @@ export default class Game {
 
   private update () {
     this.players.forEach((player, key) => {
-      movePlayer(player)
+      player.move()
       if (hasCollisioned(player, [...this.players.values()], this.mapSize)) {
         this.removePlayer(key)
         return

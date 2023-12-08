@@ -15,7 +15,7 @@ export interface Position {
 export default class Player {
   readonly name
   readonly color = getRandomColor()
-  private readonly direction
+  direction
   private readonly head: Position = { x: 0, y: 0 }
   private readonly body: Position[] = []
 
