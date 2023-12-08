@@ -1,5 +1,5 @@
 import { getRandomColor } from './utils'
-import { players } from './game'
+import { players } from './game-manager'
 
 export type Direction = 'up' | 'down' | 'left' | 'right'
 

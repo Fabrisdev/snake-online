@@ -1,6 +1,6 @@
 import { getUniqueId } from '../utils'
 import { type Direction, registerPlayer, updatePlayerDirection, type PlayerData } from '../player'
-import { players } from '../game'
+import { players } from '../game-manager'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
 
