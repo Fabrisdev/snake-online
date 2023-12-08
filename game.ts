@@ -41,41 +41,6 @@ export default class Game {
 
   }
 
-  private hasCollisioned (player: Player) {
-    return this.collisionedAgainstPlayers(player) || this.collisionedAgainstWalls([player.position, ...player.body])
-  }
-
-  private collisionedAgainstPlayers (player: Player) {
-    return [...this.players.values()].some(somePlayer => {
-      if (somePlayer === player) {
-        return this.collisionedAgainstItself(player)
-      }
-      return this.collisionedAgainstOtherPlayers(player, somePlayer)
-    })
-  }
-
-  private collisionedAgainstItself (player: Player) {
-    for (let i = 0; i < player.body.length; i++) {
-      if (player.position.x === player.body[i].x && player.position.y === player.body[i].y) return true
-    }
-    return false
-  }
-
-  private collisionedAgainstOtherPlayers (player: Player, somePlayer: Player) {
-    if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
-    for (let i = 0; i < somePlayer.body.length; i++) {
-      if (player.position.x === somePlayer.body[i].x && player.position.y === somePlayer.body[i].y) return true
-    }
-    return false
-  }
-
-  private collisionedAgainstWalls (parts: Position[]) {
-    return parts.some(({ x, y }) => {
-      return x < 0 || x >= this.mapSize ||
-             y < 0 || y >= this.mapSize
-    })
-  }
-
   private sendInformationToPlayers (information: Information) {
     [...this.players.keys()].forEach(id => {
       const client = clients.get(id)
