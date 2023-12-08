@@ -37,9 +37,7 @@ export default class Game {
   }
 
   changePlayerDirection (id: string, direction: Direction) {
-    const player = this.players.get(id)
-    if (player === undefined) return
-    player.direction = direction
+    this.players.get(id)?.setDirection(direction)
   }
 
   private update () {
