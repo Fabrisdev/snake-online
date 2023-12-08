@@ -41,14 +41,14 @@ export default class Game {
   private update () {
 
   }
-}
 
-function sendInformationToPlayers (players: Map<string, Player>, information: Information) {
-  [...players.keys()].forEach(id => {
-    const client = clients.get(id)
-    if (client === undefined) return
-    client.send(JSON.stringify(information))
-  })
+  private sendInformationToPlayers (information: Information) {
+    [...this.players.keys()].forEach(id => {
+      const client = clients.get(id)
+      if (client === undefined) return
+      client.send(JSON.stringify(information))
+    })
+  }
 }
 
 interface Information {
