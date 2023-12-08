@@ -46,7 +46,7 @@ export default class Player {
     }
   }
 
-  hasCollisioned (players: Player[], mapSize: number) {
+  collisioned (players: Player[], mapSize: number) {
     return this.collisionedAgainstPlayers(players) || this.collisionedAgainstWalls([this.head, ...this.body], mapSize)
   }
 
