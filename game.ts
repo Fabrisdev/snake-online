@@ -7,6 +7,11 @@ interface Options {
   mapSize?: number
 }
 
+interface Information {
+  apple: Position
+  players: Player[]
+}
+
 export default class Game {
   private readonly ticksPerSecond: number
   private readonly mapSize: number
@@ -61,9 +66,4 @@ export default class Game {
       client.send(JSON.stringify(information))
     })
   }
-}
-
-interface Information {
-  apple: Position
-  players: Player[]
 }
