@@ -36,19 +36,6 @@ function gameCycle (): void {
   })
 }
 
-class Game {
-  private readonly host: Player
-  private players: Player[]
-
-  constructor (host: Player) {
-    this.host = host
-  }
-
-  addPlayer(player: Player) {
-    
-  }
-}
-
 function repositionApple () {
   applePosition.x = getRandomInteger(0, SIZE / PLAYER_SIZE)
   applePosition.y = getRandomInteger(0, SIZE / PLAYER_SIZE)
