@@ -38,62 +38,7 @@ export function updatePlayerDirection (clientId: string, direction: Direction): 
   player.direction = direction
 }
 
-export function grow (player: Player) {
-  player.body.push(structuredClone(player.body.at(-1) ?? player.position))
-}
 
-export function hasCollisioned (player: Player, players: Player[], mapSize: number) {
-  return collisionedAgainstPlayers(player) || collisionedAgainstWalls([player.position, ...player.body])
-
-  function collisionedAgainstPlayers (player: Player) {
-    return [...players.values()].some(somePlayer => {
-      if (somePlayer === player) {
-        return collisionedAgainstItself()
-      }
-      return collisionedAgainstOtherPlayers(somePlayer)
-    })
-
-    function collisionedAgainstItself () {
-      for (let i = 0; i < player.body.length; i++) {
-        if (player.position.x === player.body[i].x && player.position.y === player.body[i].y) return true
-      }
-      return false
-    }
-
-    function collisionedAgainstOtherPlayers (somePlayer: Player) {
-      if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
-      for (let i = 0; i < somePlayer.body.length; i++) {
-        if (player.position.x === somePlayer.body[i].x && player.position.y === somePlayer.body[i].y) return true
-      }
-      return false
-    }
-  }
-
-  function collisionedAgainstWalls (parts: Position[]) {
-    return parts.some(({ x, y }) => {
-      return x < 0 || x >= mapSize ||
-             y < 0 || y >= mapSize
-    })
-  }
-}
-
-export function movePlayer (player: Player) {
-  moveBody(player)
-  moveHead(player)
-}
-
-function moveHead (player: Player) {
-  if (player.direction === 'up') player.position.y -= 1
-  if (player.direction === 'down') player.position.y += 1
-  if (player.direction === 'left') player.position.x -= 1
-  if (player.direction === 'right') player.position.x += 1
-}
-
-function moveBody (player: Player) {
-  for (let i = player.body.length - 1; i >= 0; i--) {
-    player.body[i] = structuredClone(player.body[i - 1]) ?? structuredClone(player.position)
-  }
-}
 
 export default class Player {
   readonly name
@@ -107,6 +52,10 @@ export default class Player {
     this.color = color
     this.direction = direction
     this.head = { x: 0, y: 0 }
+  }
+
+  grow () {
+    this.body.push(structuredClone(this.body.at(-1) ?? this.head))
   }
 
   move () {
