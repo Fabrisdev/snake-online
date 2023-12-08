@@ -1,17 +1,24 @@
 import { type Position, type Player } from './player'
 import { getRandomPosition } from './utils'
 
+interface Options {
+  ticksPerSecond?: number
+  mapSize?: number
+}
+
 export default class Game {
+  private readonly ticksPerSecond: number
   private readonly mapSize: number
   private readonly playerSize = 25
   private readonly host: Player
   private readonly players = new Map<string, Player>()
   private readonly apple: Position
 
-  constructor (host: Player, mapSize?: number) {
+  constructor (host: Player, options: Options) {
     this.host = host
-    this.mapSize = mapSize ?? 10
+    this.mapSize = options.mapSize ?? 10
     this.apple = getRandomPosition(0, this.mapSize)
+    this.ticksPerSecond = options.ticksPerSecond ?? 5
   }
 
   addPlayer (id: string, player: Player) {
