@@ -19,6 +19,7 @@ export default class Game {
     this.mapSize = options.mapSize ?? 10
     this.apple = getRandomPosition(0, this.mapSize)
     this.ticksPerSecond = options.ticksPerSecond ?? 5
+    setInterval(this.update.bind(this), 1 / this.ticksPerSecond * 1000)
   }
 
   addPlayer (id: string, player: Player) {
@@ -27,5 +28,9 @@ export default class Game {
 
   removePlayer (id: string) {
     this.players.delete(id)
+  }
+
+  private update () {
+
   }
 }
