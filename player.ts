@@ -36,13 +36,12 @@ export default class Player {
   readonly name
   readonly color = getRandomColor()
   private readonly direction
-  private readonly head: Position
+  private readonly head: Position = { x: 0, y: 0 }
   private readonly body: Position[] = []
 
   constructor (name: string, direction: Direction) {
     this.name = name
     this.direction = direction
-    this.head = { x: 0, y: 0 }
   }
 
   grow () {
