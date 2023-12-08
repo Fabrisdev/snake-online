@@ -1,6 +1,7 @@
 import { getUniqueId } from '../utils'
 import { type Direction, registerPlayer, updatePlayerDirection, type PlayerData } from '../player'
 import { players } from '../game-manager'
+import type WebSocket from 'ws'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
 
@@ -9,11 +10,13 @@ const ClientData = z.object({
   direction: z.enum(['up', 'down', 'left', 'right'])
 })
 
+export const clients = new Map<string, WebSocket>()
+
 export function startWebSocketsServer () {
   const wss = new WebSocketServer({ port: 8080 })
   wss.on('connection', ws => {
     const clientId = getUniqueId()
-
+    clients.set(clientId, ws)
     ws.on('message', data => {
       const clientData = validateClientData(data)
       if (!clientData.success) return
@@ -23,6 +26,7 @@ export function startWebSocketsServer () {
 
     ws.on('close', () => {
       players.delete(clientId)
+      clients.delete(clientId)
     })
   })
   return wss

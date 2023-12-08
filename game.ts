@@ -1,5 +1,7 @@
-import { type Position, type Player } from './player'
+import { type Position, type Player, type Direction } from './player'
 import { getRandomPosition } from './utils'
+import { clients } from './servers/websockets'
+import { type CustomWebSocket } from './servers/websockets'
 
 interface Options {
   ticksPerSecond?: number
@@ -28,6 +30,12 @@ export default class Game {
 
   removePlayer (id: string) {
     this.players.delete(id)
+  }
+
+  changePlayerDirection (id: string, direction: Direction) {
+    const player = this.players.get(id)
+    if (player === undefined) return
+    player.direction = direction
   }
 
   private update () {
