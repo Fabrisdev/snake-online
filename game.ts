@@ -45,13 +45,13 @@ export default class Game {
   private update () {
     this.players.forEach((player, key) => {
       player.move()
-      if (hasCollisioned(player, [...this.players.values()], this.mapSize)) {
+      if (player.collisioned([...this.players.values()], this.mapSize)) {
         this.removePlayer(key)
         return
       }
-      if (player.position.x === this.apple.x && player.position.y === this.apple.y) {
+      if (player.hasAteApple(this.apple)) {
         this.apple = getRandomPosition(0, this.mapSize)
-        grow(player)
+        player.grow()
       }
     })
     this.sendInformationToPlayers({
