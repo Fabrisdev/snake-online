@@ -34,14 +34,13 @@ export function registerPlayer ({ clientId, players, playerData }: RegisterPlaye
 
 export default class Player {
   readonly name
-  readonly color
+  readonly color = getRandomColor()
   private readonly direction
   private readonly head: Position
   private readonly body: Position[] = []
 
-  constructor (name: string, direction: Direction, color: string) {
+  constructor (name: string, direction: Direction) {
     this.name = name
-    this.color = color
     this.direction = direction
     this.head = { x: 0, y: 0 }
   }
