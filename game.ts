@@ -1,7 +1,7 @@
 import type Player from './player'
 import { type Position, type Direction } from './player'
-import { getRandomPosition } from './utils'
 import { clients } from './servers/websockets'
+import Apple from './apple'
 
 interface Options {
   ticksPerSecond?: number
@@ -18,12 +18,12 @@ export default class Game {
   private readonly mapSize: number
   private readonly host: Player
   private readonly players = new Map<string, Player>()
-  private apple: Position
+  private apple
 
   constructor (host: Player, options: Options) {
     this.host = host
     this.mapSize = options.mapSize ?? 10
-    this.apple = getRandomPosition(0, this.mapSize)
+    this.apple = new Apple(this.mapSize)
     this.ticksPerSecond = options.ticksPerSecond ?? 5
     setInterval(this.update.bind(this), 1 / this.ticksPerSecond * 1000)
   }
@@ -50,7 +50,7 @@ export default class Game {
         return
       }
       if (player.hasAteApple(this.apple)) {
-        this.apple = getRandomPosition(0, this.mapSize)
+        this.apple = new Apple(this.mapSize)
         player.grow()
       }
     })
