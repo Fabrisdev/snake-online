@@ -49,7 +49,7 @@ export function grow (player: Player) {
   player.body.push(structuredClone(player.body.at(-1) ?? player.position))
 }
 
-export function hasCollisioned (player: Player, mapSize: number) {
+export function hasCollisioned (player: Player, players: Player[], mapSize: number) {
   return collisionedAgainstPlayers(player) || collisionedAgainstWalls([player.position, ...player.body])
 
   function collisionedAgainstPlayers (player: Player) {

@@ -1,4 +1,4 @@
-import { type Position, type Player, type Direction } from './player'
+import { type Position, type Player, type Direction, movePlayer, hasCollisioned, grow } from './player'
 import { getRandomPosition } from './utils'
 import { clients } from './servers/websockets'
 
@@ -13,7 +13,7 @@ export default class Game {
   private readonly playerSize = 25
   private readonly host: Player
   private readonly players = new Map<string, Player>()
-  private readonly apple: Position
+  private apple: Position
 
   constructor (host: Player, options: Options) {
     this.host = host
@@ -38,7 +38,21 @@ export default class Game {
   }
 
   private update () {
-
+    this.players.forEach((player, key) => {
+      movePlayer(player)
+      if (hasCollisioned(player, [...this.players.values()], this.mapSize)) {
+        this.removePlayer(key)
+        return
+      }
+      if (player.position.x === this.apple.x && player.position.y === this.apple.y) {
+        this.apple = getRandomPosition(0, this.mapSize)
+        grow(player)
+      }
+    })
+    this.sendInformationToPlayers({
+      apple: this.apple,
+      players: [...this.players.values()]
+    })
   }
 
   private sendInformationToPlayers (information: Information) {
