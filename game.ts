@@ -37,7 +37,16 @@ function gameCycle (): void {
 }
 
 class Game {
-  
+  private readonly host: Player
+  private players: Player[]
+
+  constructor (host: Player) {
+    this.host = host
+  }
+
+  addPlayer(player: Player) {
+    
+  }
 }
 
 function repositionApple () {
