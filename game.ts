@@ -10,7 +10,6 @@ interface Options {
 export default class Game {
   private readonly ticksPerSecond: number
   private readonly mapSize: number
-  private readonly playerSize = 25
   private readonly host: Player
   private readonly players = new Map<string, Player>()
   private apple: Position
