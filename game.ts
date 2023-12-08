@@ -1,7 +1,7 @@
 import { type Position, type Player } from './player'
 import { getRandomPosition } from './utils'
 
-export class Game {
+export default class Game {
   private readonly mapSize: number
   private readonly playerSize = 25
   private readonly host: Player
