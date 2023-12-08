@@ -1,3 +1,4 @@
+import type Apple from './apple'
 import { getRandomColor } from './utils'
 
 export type Direction = 'up' | 'down' | 'left' | 'right'
@@ -33,7 +34,7 @@ export default class Player {
     this.moveHead()
   }
 
-  hasAteApple (apple: Position) {
+  hasAteApple (apple: Apple) {
     return this.head.x === apple.x && this.head.y === apple.y
   }
 
