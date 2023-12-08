@@ -32,14 +32,6 @@ export function registerPlayer ({ clientId, players, playerData }: RegisterPlaye
   })
 }
 
-export function updatePlayerDirection (clientId: string, direction: Direction): void {
-  const player = players.get(clientId)
-  if (player === undefined) return
-  player.direction = direction
-}
-
-
-
 export default class Player {
   readonly name
   readonly color
