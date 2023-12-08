@@ -1,5 +1,14 @@
+import { type Position } from './player'
+
 export function getRandomInteger (min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min)
+}
+
+export function getRandomPosition (min: number, max: number): Position {
+  return {
+    x: getRandomInteger(min, max),
+    y: getRandomInteger(min, max)
+  }
 }
 
 export function getUniqueId (): string {
