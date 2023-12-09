@@ -4,24 +4,6 @@ import { z } from 'zod'
 import { handleMessage } from '../game-manager'
 import { getUniqueId } from '../utils'
 
-const ClientData = z.discriminatedUnion('type', [
-  z.object({
-    type: z.literal('create')
-  }),
-  z.object({
-    type: z.literal('join'),
-    gameId: z.string(),
-    name: z.string().min(3).max(12)
-  }),
-  z.object({
-    type: z.literal('leave')
-  }),
-  z.object({
-    type: z.literal('changeDirection'),
-    direction: z.enum(['left', 'right', 'down', 'up'])
-  })
-])
-
 export const clients = new Map<string, WebSocket>()
 
 export function startWebSocketsServer () {
@@ -43,6 +25,24 @@ export function startWebSocketsServer () {
 }
 
 function validateClientData (clientData: RawData) {
+  const ClientData = z.discriminatedUnion('type', [
+    z.object({
+      type: z.literal('create')
+    }),
+    z.object({
+      type: z.literal('join'),
+      gameId: z.string(),
+      name: z.string().min(3).max(12)
+    }),
+    z.object({
+      type: z.literal('leave')
+    }),
+    z.object({
+      type: z.literal('changeDirection'),
+      direction: z.enum(['left', 'right', 'down', 'up'])
+    })
+  ])
+
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const dataAsJson = JSON.parse(clientData.toString())
   return ClientData.safeParse(dataAsJson)
