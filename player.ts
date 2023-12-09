@@ -16,13 +16,12 @@ export interface Position {
 export default class Player {
   readonly name
   readonly color = getRandomColor()
-  private direction
+  private direction: Direction = 'down'
   private readonly head: Position = { x: 0, y: 0 }
   private readonly body: Position[] = []
 
-  constructor (name: string, direction: Direction) {
+  constructor (name: string) {
     this.name = name
-    this.direction = direction
   }
 
   setDirection (direction: Direction) {
