@@ -19,6 +19,10 @@ export default class Game {
     setInterval(this.update.bind(this), 1 / this.ticksPerSecond * 1000)
   }
 
+  getPlayerCount () {
+    return this.players.size
+  }
+
   setTicksPerSecond (ticksPerSecond: number) {
     this.ticksPerSecond = ticksPerSecond
   }
