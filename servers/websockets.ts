@@ -1,57 +1,67 @@
-import { getUniqueId } from '../utils'
-import { type Direction, registerPlayer, updatePlayerDirection, type PlayerData } from '../player'
-import { players } from '../game'
+import type WebSocket from 'ws'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
+import { handleMessage } from '../game-manager'
+import { getUniqueId } from '../utils'
 
-const ClientData = z.object({
-  name: z.string().min(1).max(12),
-  direction: z.enum(['up', 'down', 'left', 'right'])
-})
+export const clients = new Map<string, WebSocket>()
 
 export function startWebSocketsServer () {
   const wss = new WebSocketServer({ port: 8080 })
   wss.on('connection', ws => {
     const clientId = getUniqueId()
-
+    clients.set(clientId, ws)
     ws.on('message', data => {
-      const clientData = validateClientData(data)
+      const clientData = validateData(data)
       if (!clientData.success) return
-      if (!validateDirection(clientId, clientData.data.direction)) return
       handleMessage(clientId, clientData.data)
     })
 
     ws.on('close', () => {
-      players.delete(clientId)
+      clients.delete(clientId)
     })
   })
-  return wss
 }
 
-function validateClientData (clientData: RawData) {
+function validateData (clientData: RawData) {
+  const ClientData = z.discriminatedUnion('type', [
+    z.object({
+      type: z.literal('list')
+    }),
+    z.object({
+      type: z.literal('create')
+    }),
+    z.object({
+      type: z.literal('join'),
+      gameId: z.string(),
+      name: z.string().min(3).max(12)
+    }),
+    z.object({
+      type: z.literal('leave')
+    }),
+    z.object({
+      type: z.literal('changeDirection'),
+      direction: z.enum(['left', 'right', 'down', 'up'])
+    })
+  ])
+
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const dataAsJson = JSON.parse(clientData.toString())
   return ClientData.safeParse(dataAsJson)
 }
 
-function validateDirection (clientId: string, newDirection: Direction) {
-  const player = players.get(clientId)
-  if (player === undefined) return true
-  if (player.direction === 'left' && newDirection === 'right') return false
-  if (player.direction === 'right' && newDirection === 'left') return false
-  if (player.direction === 'up' && newDirection === 'down') return false
-  if (player.direction === 'down' && newDirection === 'up') return false
-  return true
+export function sendText (clientId: string, message: string) {
+  const client = clients.get(clientId)
+  if (client === undefined) return
+  client.send(JSON.stringify({
+    message
+  }))
 }
 
-function handleMessage (clientId: string, data: PlayerData) {
-  if (!players.has(clientId)) {
-    registerPlayer({
-      clientId,
-      players,
-      playerData: data
-    })
-    return
-  }
-  updatePlayerDirection(clientId, data.direction)
+export function sendMessage (clientId: string, message: Record<string, unknown>) {
+  const client = clients.get(clientId)
+  if (client === undefined) return
+  client.send(JSON.stringify({
+    message
+  }))
 }

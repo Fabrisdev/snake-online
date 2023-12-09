@@ -1,95 +1,71 @@
-import { wss } from './index'
-import { getRandomInteger } from './utils'
-import { grow, type Position, type Player } from './player'
+import type Player from './player'
+import { type Position, type Direction } from './player'
+import { clients } from './servers/websockets'
+import Apple from './apple'
 
-const CYCLE_SPEED = 200
-setInterval(gameCycle, CYCLE_SPEED)
-
-const SIZE = 500
-const PLAYER_SIZE = 25
-
-const applePosition = {
-  x: getRandomInteger(0, SIZE / PLAYER_SIZE),
-  y: getRandomInteger(0, SIZE / PLAYER_SIZE)
-}
-export const players = new Map<string, Player>()
-
-function gameCycle (): void {
-  players.forEach((player, key) => {
-    movePlayer(player)
-    if (hasCollisioned(player)) {
-      players.delete(key)
-      return
-    }
-    if (player.position.x === applePosition.x && player.position.y === applePosition.y) {
-      repositionApple()
-      grow(player)
-    }
-  })
-  const playersAsArray = Array.from(players.values())
-
-  wss.clients.forEach(client => {
-    client.send(JSON.stringify({
-      apple: applePosition,
-      players: playersAsArray
-    }))
-  })
+interface Information {
+  apple: Position
+  players: Player[]
 }
 
-function repositionApple () {
-  applePosition.x = getRandomInteger(0, SIZE / PLAYER_SIZE)
-  applePosition.y = getRandomInteger(0, SIZE / PLAYER_SIZE)
-}
+export default class Game {
+  private ticksPerSecond = 5
+  private mapSize = 10
+  private readonly players = new Map<string, Player>()
+  private apple
 
-function movePlayer (player: Player) {
-  moveBody(player)
-  moveHead(player)
-}
-
-function moveHead (player: Player) {
-  if (player.direction === 'up') player.position.y -= 1
-  if (player.direction === 'down') player.position.y += 1
-  if (player.direction === 'left') player.position.x -= 1
-  if (player.direction === 'right') player.position.x += 1
-}
-
-function moveBody (player: Player) {
-  for (let i = player.body.length - 1; i >= 0; i--) {
-    player.body[i] = structuredClone(player.body[i - 1]) ?? structuredClone(player.position)
+  constructor () {
+    this.apple = new Apple(this.mapSize)
+    setInterval(this.update.bind(this), 1 / this.ticksPerSecond * 1000)
   }
-}
 
-function hasCollisioned (player: Player) {
-  return collisionedAgainstPlayers(player) || collisionedAgainstWalls([player.position, ...player.body])
+  getPlayerCount () {
+    return this.players.size
+  }
 
-  function collisionedAgainstPlayers (player: Player) {
-    return [...players.values()].some(somePlayer => {
-      if (somePlayer === player) {
-        return collisionedAgainstItself()
+  setTicksPerSecond (ticksPerSecond: number) {
+    this.ticksPerSecond = ticksPerSecond
+  }
+
+  setMapSize (mapSize: number) {
+    this.mapSize = mapSize
+  }
+
+  addPlayer (id: string, player: Player) {
+    this.players.set(id, player)
+  }
+
+  removePlayer (id: string) {
+    this.players.delete(id)
+  }
+
+  changePlayerDirection (id: string, direction: Direction) {
+    this.players.get(id)?.setDirection(direction)
+  }
+
+  private update () {
+    this.players.forEach((player, key) => {
+      player.move()
+      if (player.collisioned([...this.players.values()], this.mapSize)) {
+        this.removePlayer(key)
+        return
       }
-      return collisionedAgainstOtherPlayers(somePlayer)
+      if (player.hasAteApple(this.apple)) {
+        this.apple = new Apple(this.mapSize)
+        player.grow()
+      }
     })
-
-    function collisionedAgainstItself () {
-      for (let i = 0; i < player.body.length; i++) {
-        if (player.position.x === player.body[i].x && player.position.y === player.body[i].y) return true
-      }
-      return false
-    }
-
-    function collisionedAgainstOtherPlayers (somePlayer: Player) {
-      if (somePlayer.position.x === player.position.x && somePlayer.position.y === player.position.y) return true
-      for (let i = 0; i < somePlayer.body.length; i++) {
-        if (player.position.x === somePlayer.body[i].x && player.position.y === somePlayer.body[i].y) return true
-      }
-      return false
-    }
+    this.sendInformationToPlayers({
+      apple: this.apple,
+      players: [...this.players.values()]
+    })
   }
 
-  function collisionedAgainstWalls (parts: Position[]) {
-    return parts.some(({ x, y }) => {
-      return x < 0 || x >= SIZE / PLAYER_SIZE ||
-             y < 0 || y >= SIZE / PLAYER_SIZE
+  private sendInformationToPlayers (information: Information) {
+    [...this.players.keys()].forEach(id => {
+      const client = clients.get(id)
+      if (client === undefined) return
+      client.send(JSON.stringify(information))
     })
   }
 }
