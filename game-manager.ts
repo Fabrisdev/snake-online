@@ -21,7 +21,11 @@ interface ChangeDirectionMessage {
   direction: 'left' | 'right' | 'down' | 'up'
 }
 
-type ClientMessage = CreateGameMessage | JoinMessage | LeaveMessage | ChangeDirectionMessage
+type ClientMessage =
+  CreateGameMessage |
+  JoinMessage |
+  LeaveMessage |
+  ChangeDirectionMessage
 
 class GameManager extends Map<string, Game> {
   create (clientId: string) {
