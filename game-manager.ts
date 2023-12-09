@@ -1,6 +1,6 @@
 import Game from './game'
 import Player, { type Direction } from './player'
-import { sendMessage } from './servers/websockets'
+import { sendText } from './servers/websockets'
 import { type ClientMessage, type JoinMessage } from './messages'
 
 class GameManager extends Map<string, Game> {
@@ -26,7 +26,7 @@ class GameManager extends Map<string, Game> {
   join (clientId: string, message: JoinMessage) {
     const game = this.get(message.gameId)
     if (game === undefined) {
-      sendMessage(clientId, 'The specified game does not exist.')
+      sendText(clientId, 'The specified game does not exist.')
       return
     }
     const player = new Player(message.name)

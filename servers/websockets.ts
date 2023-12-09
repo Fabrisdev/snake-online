@@ -50,7 +50,7 @@ function validateData (clientData: RawData) {
   return ClientData.safeParse(dataAsJson)
 }
 
-export function sendMessage (clientId: string, message: string) {
+export function sendText (clientId: string, message: string) {
   const client = clients.get(clientId)
   if (client === undefined) return
   client.send(JSON.stringify({
