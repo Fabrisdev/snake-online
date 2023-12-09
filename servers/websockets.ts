@@ -2,6 +2,7 @@ import type WebSocket from 'ws'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
 import { handleMessage } from '../game-manager'
+import { getUniqueId } from '../utils'
 
 const ClientData = z.discriminatedUnion('type', [
   z.object({
@@ -41,8 +42,4 @@ function validateClientData (clientData: RawData) {
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const dataAsJson = JSON.parse(clientData.toString())
   return ClientData.safeParse(dataAsJson)
-}
-
-function getUniqueId (): string {
-  return Math.random().toString(36).substring(2, 15)
 }

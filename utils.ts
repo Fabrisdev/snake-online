@@ -33,3 +33,7 @@ function rgb2hsv (r: number, g: number, b: number) {
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   return [60 * (h < 0 ? h + 6 : h), v && c / v, v]
 }
+
+export function getUniqueId (): string {
+  return Math.random().toString(36).substring(2, 15)
+}
