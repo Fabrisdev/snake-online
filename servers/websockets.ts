@@ -43,18 +43,6 @@ function validateClientData (clientData: RawData) {
   return ClientData.safeParse(dataAsJson)
 }
 
-function handleMessage (clientId: string, data: PlayerData) {
-  if (!players.has(clientId)) {
-    registerPlayer({
-      clientId,
-      players,
-      playerData: data
-    })
-    return
-  }
-  updatePlayerDirection(clientId, data.direction)
-}
-
 function getUniqueId (): string {
   return Math.random().toString(36).substring(2, 15)
 }
