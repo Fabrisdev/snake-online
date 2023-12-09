@@ -1,4 +1,6 @@
 import Game from './game'
+import Player from './player'
+import { sendMessage } from './servers/websockets'
 
 interface CreateGameMessage {
   type: 'create'
@@ -6,6 +8,7 @@ interface CreateGameMessage {
 
 interface JoinMessage {
   type: 'join'
+  gameId: string
   name: string
 }
 
@@ -24,8 +27,16 @@ const games = new Map<string, Game>()
 
 export function handleMessage (clientId: string, message: ClientMessage) {
   if (message.type === 'create') createGame(clientId)
+  if (message.type === 'join') joinGame(clientId, message)
 }
 
 function createGame (clientId: string) {
   games.set(clientId, new Game())
+}
+
+function joinGame (clientId: string, message: JoinMessage) {
+  const game = games.get(message.gameId)
+  if (game === undefined) { sendMessage(clientId, 'The specified game does not exist.'); return }
+  const player = new Player(message.name)
+  game.addPlayer(clientId, player)
 }
