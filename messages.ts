@@ -1,22 +1,22 @@
-interface ListGamesMessage {
+export interface ListGamesMessage {
   type: 'list'
 }
 
-interface CreateGameMessage {
+export interface CreateGameMessage {
   type: 'create'
 }
 
-interface JoinMessage {
+export interface JoinMessage {
   type: 'join'
   gameId: string
   name: string
 }
 
-interface LeaveMessage {
+export interface LeaveMessage {
   type: 'leave'
 }
 
-interface ChangeDirectionMessage {
+export interface ChangeDirectionMessage {
   type: 'changeDirection'
   direction: 'left' | 'right' | 'down' | 'up'
 }
