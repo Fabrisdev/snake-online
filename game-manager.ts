@@ -28,6 +28,7 @@ const games = new Map<string, Game>()
 export function handleMessage (clientId: string, message: ClientMessage) {
   if (message.type === 'create') createGame(clientId)
   if (message.type === 'join') joinGame(clientId, message)
+  if (message.type === 'leave') leaveGames(clientId)
 }
 
 function createGame (clientId: string) {
@@ -39,4 +40,10 @@ function joinGame (clientId: string, message: JoinMessage) {
   if (game === undefined) { sendMessage(clientId, 'The specified game does not exist.'); return }
   const player = new Player(message.name)
   game.addPlayer(clientId, player)
+}
+
+function leaveGames (clientId: string) {
+  games.forEach(game => {
+    game.removePlayer(clientId)
+  })
 }
