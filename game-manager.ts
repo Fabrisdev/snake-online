@@ -1,4 +1,4 @@
-import type Game from './game'
+import Game from './game'
 
 interface CreateGameMessage {
   type: 'create'
@@ -23,5 +23,9 @@ type ClientMessage = CreateGameMessage | JoinMessage | LeaveMessage | ChangeDire
 const games = new Map<string, Game>()
 
 export function handleMessage (clientId: string, message: ClientMessage) {
+  if (message.type === 'create') createGame(clientId)
+}
 
+function createGame (clientId: string) {
+  games.set(clientId, new Game())
 }
