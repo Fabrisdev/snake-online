@@ -1,7 +1,7 @@
-import { type PlayerData } from '../player'
 import type WebSocket from 'ws'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
+import { handleMessage } from '../game-manager'
 
 const ClientData = z.discriminatedUnion('type', [
   z.object({
