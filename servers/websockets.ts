@@ -6,6 +6,9 @@ import { getUniqueId } from '../utils'
 
 const ClientData = z.discriminatedUnion('type', [
   z.object({
+    type: z.literal('create')
+  }),
+  z.object({
     type: z.literal('join'),
     name: z.string().min(3).max(12)
   }),

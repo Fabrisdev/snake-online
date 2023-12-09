@@ -1,5 +1,9 @@
 import type Game from './game'
 
+interface CreateGameMessage {
+  type: 'create'
+}
+
 interface JoinMessage {
   type: 'join'
   name: string
@@ -14,7 +18,7 @@ interface ChangeDirectionMessage {
   direction: 'left' | 'right' | 'down' | 'up'
 }
 
-type ClientMessage = JoinMessage | LeaveMessage | ChangeDirectionMessage
+type ClientMessage = CreateGameMessage | JoinMessage | LeaveMessage | ChangeDirectionMessage
 
 const games = new Map<string, Game>()
 
