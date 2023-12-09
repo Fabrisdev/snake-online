@@ -16,12 +16,10 @@ interface Information {
 export default class Game {
   private readonly ticksPerSecond: number
   private readonly mapSize: number
-  private readonly host: Player
   private readonly players = new Map<string, Player>()
   private apple
 
-  constructor (host: Player, options: Options) {
-    this.host = host
+  constructor (options: Options) {
     this.mapSize = options.mapSize ?? 10
     this.apple = new Apple(this.mapSize)
     this.ticksPerSecond = options.ticksPerSecond ?? 5
