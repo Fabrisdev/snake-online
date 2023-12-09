@@ -28,12 +28,6 @@ class GameManager extends Map<string, Game> {
     games.set(clientId, new Game())
   }
 
-  changePlayerDirection (clientId: string, direction: Direction) {
-    this.forEach(game => {
-      game.changePlayerDirection(clientId, direction)
-    })
-  }
-
   leaveAll (clientId: string) {
     this.forEach(game => {
       game.removePlayer(clientId)
@@ -60,31 +54,8 @@ class GameManager extends Map<string, Game> {
 const games = new GameManager()
 
 export function handleMessage (clientId: string, message: ClientMessage) {
-  if (message.type === 'create') createGame(clientId)
-  if (message.type === 'join') joinGame(clientId, message)
-  if (message.type === 'leave') leaveGames(clientId)
-  if (message.type === 'changeDirection') changeDirection(clientId, message.direction)
-}
-
-function createGame (clientId: string) {
-  games.set(clientId, new Game())
-}
-
-function joinGame (clientId: string, message: JoinMessage) {
-  const game = games.get(message.gameId)
-  if (game === undefined) { sendMessage(clientId, 'The specified game does not exist.'); return }
-  const player = new Player(message.name)
-  game.addPlayer(clientId, player)
-}
-
-function leaveGames (clientId: string) {
-  games.forEach(game => {
-    game.removePlayer(clientId)
-  })
-}
-
-function changeDirection (clientId: string, direction: Direction) {
-  games.forEach(game => {
-    game.changePlayerDirection(clientId, direction)
-  })
+  if (message.type === 'create') games.create(clientId)
+  if (message.type === 'join') games.join(clientId, message)
+  if (message.type === 'leave') games.leaveAll(clientId)
+  if (message.type === 'changeDirection') games.changeDirection(clientId, message.direction)
 }
