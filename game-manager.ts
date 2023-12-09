@@ -1,5 +1,5 @@
 import Game from './game'
-import Player from './player'
+import Player, { type Direction } from './player'
 import { sendMessage } from './servers/websockets'
 
 interface CreateGameMessage {
@@ -29,6 +29,7 @@ export function handleMessage (clientId: string, message: ClientMessage) {
   if (message.type === 'create') createGame(clientId)
   if (message.type === 'join') joinGame(clientId, message)
   if (message.type === 'leave') leaveGames(clientId)
+  if (message.type === 'changeDirection') changeDirection(clientId, message.direction)
 }
 
 function createGame (clientId: string) {
@@ -45,5 +46,11 @@ function joinGame (clientId: string, message: JoinMessage) {
 function leaveGames (clientId: string) {
   games.forEach(game => {
     game.removePlayer(clientId)
+  })
+}
+
+function changeDirection (clientId: string, direction: Direction) {
+  games.forEach(game => {
+    game.changePlayerDirection(clientId, direction)
   })
 }
