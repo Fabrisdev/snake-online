@@ -26,6 +26,9 @@ export function startWebSocketsServer () {
 function validateData (clientData: RawData) {
   const ClientData = z.discriminatedUnion('type', [
     z.object({
+      type: z.literal('list')
+    }),
+    z.object({
       type: z.literal('create')
     }),
     z.object({

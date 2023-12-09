@@ -2,6 +2,10 @@ import Game from './game'
 import Player, { type Direction } from './player'
 import { sendMessage } from './servers/websockets'
 
+interface ListGamesMessage {
+  type: 'list'
+}
+
 interface CreateGameMessage {
   type: 'create'
 }
@@ -22,6 +26,7 @@ interface ChangeDirectionMessage {
 }
 
 type ClientMessage =
+  ListGamesMessage |
   CreateGameMessage |
   JoinMessage |
   LeaveMessage |
