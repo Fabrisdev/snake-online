@@ -3,27 +3,28 @@ import { type Position, type Direction } from './player'
 import { clients } from './servers/websockets'
 import Apple from './apple'
 
-interface Options {
-  ticksPerSecond?: number
-  mapSize?: number
-}
-
 interface Information {
   apple: Position
   players: Player[]
 }
 
 export default class Game {
-  private readonly ticksPerSecond: number
-  private readonly mapSize: number
+  private ticksPerSecond = 5
+  private mapSize = 10
   private readonly players = new Map<string, Player>()
   private apple
 
-  constructor (options: Options) {
-    this.mapSize = options.mapSize ?? 10
+  constructor () {
     this.apple = new Apple(this.mapSize)
-    this.ticksPerSecond = options.ticksPerSecond ?? 5
     setInterval(this.update.bind(this), 1 / this.ticksPerSecond * 1000)
+  }
+
+  setTicksPerSecond (ticksPerSecond: number) {
+    this.ticksPerSecond = ticksPerSecond
+  }
+
+  setMapSize (mapSize: number) {
+    this.mapSize = mapSize
   }
 
   addPlayer (id: string, player: Player) {
