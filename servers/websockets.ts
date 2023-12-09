@@ -12,7 +12,7 @@ export function startWebSocketsServer () {
     const clientId = getUniqueId()
     clients.set(clientId, ws)
     ws.on('message', data => {
-      const clientData = validateClientData(data)
+      const clientData = validateData(data)
       if (!clientData.success) return
       handleMessage(clientId, clientData.data)
     })
@@ -24,7 +24,7 @@ export function startWebSocketsServer () {
   return wss
 }
 
-function validateClientData (clientData: RawData) {
+function validateData (clientData: RawData) {
   const ClientData = z.discriminatedUnion('type', [
     z.object({
       type: z.literal('create')
