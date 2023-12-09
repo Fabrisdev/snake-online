@@ -4,6 +4,15 @@ import { sendMessage } from './servers/websockets'
 import { type ClientMessage, type JoinMessage } from './messages'
 
 class GameManager extends Map<string, Game> {
+  listAll (clientId: string) {
+    return [...this.values()].map((game, id) => {
+      return {
+        id,
+        playerCount: game.getPlayerCount()
+      }
+    })
+  }
+
   create (clientId: string) {
     games.set(clientId, new Game())
   }
@@ -34,6 +43,7 @@ class GameManager extends Map<string, Game> {
 const games = new GameManager()
 
 export function handleMessage (clientId: string, message: ClientMessage) {
+  if (message.type === 'list') games.listAll(clientId)
   if (message.type === 'create') games.create(clientId)
   if (message.type === 'join') games.join(clientId, message)
   if (message.type === 'leave') games.leaveAll(clientId)
