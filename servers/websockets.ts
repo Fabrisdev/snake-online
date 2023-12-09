@@ -10,6 +10,7 @@ const ClientData = z.discriminatedUnion('type', [
   }),
   z.object({
     type: z.literal('join'),
+    gameId: z.string(),
     name: z.string().min(3).max(12)
   }),
   z.object({
@@ -45,4 +46,12 @@ function validateClientData (clientData: RawData) {
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const dataAsJson = JSON.parse(clientData.toString())
   return ClientData.safeParse(dataAsJson)
+}
+
+export function sendMessage (clientId: string, message: string) {
+  const client = clients.get(clientId)
+  if (client === undefined) return
+  client.send(JSON.stringify({
+    message
+  }))
 }
