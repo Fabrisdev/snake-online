@@ -57,3 +57,11 @@ export function sendText (clientId: string, message: string) {
     message
   }))
 }
+
+export function sendMessage (clientId: string, message: Record<string, unknown>) {
+  const client = clients.get(clientId)
+  if (client === undefined) return
+  client.send(JSON.stringify({
+    message
+  }))
+}
