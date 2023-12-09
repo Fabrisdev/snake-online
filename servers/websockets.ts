@@ -3,10 +3,19 @@ import type WebSocket from 'ws'
 import { type RawData, WebSocketServer } from 'ws'
 import { z } from 'zod'
 
-const ClientData = z.object({
-  name: z.string().min(1).max(12),
-  direction: z.enum(['up', 'down', 'left', 'right'])
-})
+const ClientData = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('join'),
+    name: z.string().min(3).max(12)
+  }),
+  z.object({
+    type: z.literal('leave')
+  }),
+  z.object({
+    type: z.literal('changeDirection'),
+    direction: z.enum(['left', 'right', 'down', 'up'])
+  })
+])
 
 export const clients = new Map<string, WebSocket>()
 
