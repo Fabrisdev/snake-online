@@ -21,7 +21,6 @@ export function startWebSocketsServer () {
       clients.delete(clientId)
     })
   })
-  return wss
 }
 
 function validateData (clientData: RawData) {
