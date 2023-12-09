@@ -1,3 +1,5 @@
+import type Game from './game'
+
 interface JoinMessage {
   type: 'join'
   name: string
@@ -14,6 +16,8 @@ interface ChangeDirectionMessage {
 
 type ClientMessage = JoinMessage | LeaveMessage | ChangeDirectionMessage
 
-export function handleMessage (clientId: string, data: ClientMessage) {
+const games = new Map<string, Game>()
+
+export function handleMessage (clientId: string, message: ClientMessage) {
 
 }
